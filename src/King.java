@@ -1,11 +1,12 @@
 public class King extends Piece {
+
     public King(PieceInfo pieceInfo) {
         super(pieceInfo);
     }
 
     @Override
     public void pieceTakes() {
-
+        pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
     }
 
     @Override
@@ -15,6 +16,10 @@ public class King extends Piece {
 
     @Override
     public boolean isMoveInPieceScope() {
-        return false;
+        int temp1 = Math.abs(xPos - pieceInfo.getLastX());
+        int temp2 = Math.abs(yPos - pieceInfo.getLastY());
+        return temp1 * temp2 == 1 || temp1 * temp2 == 0;
     }
+
+
 }

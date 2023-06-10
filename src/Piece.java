@@ -1,5 +1,6 @@
 public abstract class Piece {
     public PieceInfo pieceInfo;
+    public boolean check;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
 
@@ -40,6 +41,8 @@ public abstract class Piece {
 
 
     public void updatePosition(){
+
+        System.out.println("kingChecked() : " + kingChecked());
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
         if (pieceInfo.getColor() == 'W')
@@ -53,6 +56,11 @@ public abstract class Piece {
         return pieceInfo.getColor() == pieceInteraction.whiteOrBlackTurn;
     }
     public boolean ifPieceDidNotMove(){return pieceInfo.getLastX() == xPos && pieceInfo.getLastY() == yPos;}
+    public boolean kingChecked() {
+        return false;
+    }
+
+
 
 
     //* Metodat abstrakte

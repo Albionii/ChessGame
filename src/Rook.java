@@ -47,4 +47,5 @@ public class Rook extends Piece{
     public boolean isMoveInPieceScope() {
         return pieceInfo.getLastX() == xPos || pieceInfo.getLastY() == yPos;
     }
+
 }
