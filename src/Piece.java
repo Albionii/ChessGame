@@ -20,9 +20,15 @@ public abstract class Piece {
     public void move(int xPosition, int yPosition) {
         xPos = xPosition;
         yPos = yPosition;
+        System.out.println("isAnyPieceOnTheWay: " + isAnyPieceOnTheWay());
         if (isLegalMove()){
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
-                pieceTakes();
+                if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
+                    pieceTakes();
+                }else {
+                    restartPreviousMove();
+                    return;
+                }
             }
             updatePosition();
 
@@ -36,24 +42,22 @@ public abstract class Piece {
     public void updatePosition(){
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
-        if (pieceInfo.getColor() == 'W') {
+        if (pieceInfo.getColor() == 'W')
             pieceInteraction.whiteOrBlackTurn = 'B';
-        }
-        else {
+        else
             pieceInteraction.whiteOrBlackTurn = 'W';
-        }
     }
 
-    public boolean isLegalMove() {
-        if (isItYourTurn() && !isAnyPieceOnTheWay() && isMoveInPieceScope()){
-            return true;
-        }
-        return false;
+    public boolean isLegalMove() {return isItYourTurn() && !isAnyPieceOnTheWay() && isMoveInPieceScope() && !ifPieceDidNotMove();}
+    public boolean isItYourTurn() {
+        return pieceInfo.getColor() == pieceInteraction.whiteOrBlackTurn;
     }
+    public boolean ifPieceDidNotMove(){return pieceInfo.getLastX() == xPos && pieceInfo.getLastY() == yPos;}
 
+
+    //* Metodat abstrakte
     public abstract void pieceTakes();
     public abstract boolean isAnyPieceOnTheWay();
-    public abstract boolean isItYourTurn();
     public abstract boolean isMoveInPieceScope();
 
 

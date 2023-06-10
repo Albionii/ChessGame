@@ -15,7 +15,6 @@ public class DrawBoard {
         this.frame = frame;
         drawBoard();
         DrawPieces drawPieces = new DrawPieces(boardLabel);
-//        Piece piece = new Piece(panel, boardLabel);
     }
 
     public void drawBoard() {

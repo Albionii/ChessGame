@@ -1,4 +1,5 @@
 public class Pawn extends Piece{
+    private boolean enPassant;
     public Pawn(PieceInfo pieceInfo) {
         super(pieceInfo);
     }
@@ -12,6 +13,9 @@ public class Pawn extends Piece{
             if (pieceInfo.getColor() == 'B' && pieceInfo.getLastY() - yPos == -1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
                 pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
             }
+
+            // !Rasti enPassant me duhet me u merr me to pak ma vone
+
         }
     }
 
@@ -44,33 +48,26 @@ public class Pawn extends Piece{
         return false;
     }
 
-    @Override
-    public boolean isItYourTurn() {
-        return pieceInfo.getColor() == pieceInteraction.whiteOrBlackTurn;
-    }
 
     @Override
     public boolean isMoveInPieceScope() {
         if (pieceInfo.getColor() == 'W'){
-            if (pieceInfo.getLastY() == 6){
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos <= 2;
-            }
-            else{
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1  && pieceInfo.getLastY() - yPos == 1;
-
-            }
-
+            if (pieceInteraction.isThereAPiece(xPos, yPos))
+                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos <= 1;
+            else
+                return Math.abs(pieceInfo.getLastX() - xPos) == 0 &&
+                        (pieceInfo.getLastY() == 6
+                            ? (pieceInfo.getLastY() - yPos <=2 && pieceInfo.getLastY() - yPos >=0)
+                            : (pieceInfo.getLastY() - yPos <= 1 && pieceInfo.getLastY() - yPos >= 0));
         }
         else {
-            if (pieceInfo.getLastY() == 1)
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos >= -2;
+            if (pieceInteraction.isThereAPiece(xPos, yPos))
+                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos >= -1;
             else
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == -1;
+                return Math.abs(pieceInfo.getLastX() - xPos) == 0 &&
+                        (pieceInfo.getLastY() == 1
+                                ? (pieceInfo.getLastY() - yPos >=-2 && pieceInfo.getLastY() - yPos <=0)
+                                : (pieceInfo.getLastY() - yPos <= 0 && pieceInfo.getLastY() - yPos >= -1)); //*Ky kod eshte me i zgjatur ne menyre qe piunat te mos kthehen pas
         }
     }
-
-    public void enPassant() {
-
-    }
-
 }
