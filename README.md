@@ -18,9 +18,3 @@ Bonus:
 2. Të shtypët koha me të cilën lojtarët do të luajnë.
 3. Opsionale të ketë kohë me inkrementim.
 4. Me vërejt kur mund të luhet lëvizja **en passant**. 
-
-
-Deadline:
----------
-
-Deri me 10 qershor 2023.
