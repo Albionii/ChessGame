@@ -45,4 +45,51 @@ public class Bishop extends Piece{
         int k = pieceInfo.getLastX() - xPos;
         return yPos + k == pieceInfo.getLastY() || yPos - k == pieceInfo.getLastY();
     }
+
+    @Override
+    public boolean kingChecked() {
+
+        for (int i = yPos + 1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(xPos + (yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+        for (int i = yPos + 1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(xPos - (yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        for (int i = yPos - 1; i >=0; i--) {
+            if (pieceInteraction.isThereAPiece(xPos + (yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+        for (int i = yPos - 1; i >=0; i--) {
+            if (pieceInteraction.isThereAPiece(xPos -(yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
+
 }

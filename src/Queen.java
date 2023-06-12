@@ -3,6 +3,7 @@ public class Queen extends Piece{
         super(pieceInfo);
     }
 
+
     @Override
     public void pieceTakes() {
         pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
@@ -76,5 +77,92 @@ public class Queen extends Piece{
         return xPos == pieceInfo.getLastX() || yPos == pieceInfo.getLastY() || yPos + k == pieceInfo.getLastY() || yPos - k == pieceInfo.getLastY();
     }
 
+    @Override
+    public boolean kingChecked() {
+
+        // Kur x konst
+
+        for (int i = yPos+1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(xPos, i)) {
+                if (pieceInteraction.findPieceInThatPosition(xPos, i).getName().equals("K") && pieceInteraction.findPieceInThatPosition(xPos, i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+        for (int i = yPos-1; i >= 0; i--) {
+            if (pieceInteraction.isThereAPiece(xPos, i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos, i).getName().equals("K") && pieceInteraction.findPieceInThatPosition(xPos, i).getColor() != pieceInfo.getColor()) {
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        // Kur y konst
+        for (int i = xPos+1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(i, yPos)){
+                if (pieceInteraction.findPieceInThatPosition(i, yPos).getName().equals("K") && pieceInteraction.findPieceInThatPosition(i, yPos).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        for (int i = xPos-1; i >= 0; i--) {
+            if (pieceInteraction.isThereAPiece(i, yPos)){
+                if (pieceInteraction.findPieceInThatPosition(i, yPos).getName().equals("K") && pieceInteraction.findPieceInThatPosition(i, yPos).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+        for (int i = yPos + 1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(xPos + (yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+        for (int i = yPos + 1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(xPos - (yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        for (int i = yPos - 1; i >=0; i--) {
+            if (pieceInteraction.isThereAPiece(xPos + (yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+        for (int i = yPos - 1; i >=0; i--) {
+            if (pieceInteraction.isThereAPiece(xPos -(yPos-i), i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getName().equals("K")
+                        && pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        return false;
+    }
 
 }

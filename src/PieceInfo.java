@@ -47,4 +47,15 @@ public class PieceInfo {
         this.yPosition = yPosition;
         return this;
     }
+
+    public boolean equals(Object o){
+        if(o instanceof PieceInfo) {
+            PieceInfo p = (PieceInfo) o;
+            if (p.pieceLabel.equals(pieceLabel)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

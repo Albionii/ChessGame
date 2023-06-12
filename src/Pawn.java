@@ -5,6 +5,11 @@ public class Pawn extends Piece{
     }
 
     @Override
+    public boolean kingChecked() {
+        return false;
+    }
+
+    @Override
     public void pieceTakes() {
         if (pieceInteraction.isThereAPiece(xPos, yPos)){
             if (pieceInfo.getColor() == 'W' && pieceInfo.getLastY() - yPos == 1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){

@@ -48,4 +48,48 @@ public class Rook extends Piece{
         return pieceInfo.getLastX() == xPos || pieceInfo.getLastY() == yPos;
     }
 
+    @Override
+    public boolean kingChecked() {
+
+        // Kur x konst
+
+        for (int i = yPos+1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(xPos, i)) {
+                if (pieceInteraction.findPieceInThatPosition(xPos, i).getName().equals("K") && pieceInteraction.findPieceInThatPosition(xPos, i).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+        for (int i = yPos-1; i >= 0; i--) {
+            if (pieceInteraction.isThereAPiece(xPos, i)){
+                if (pieceInteraction.findPieceInThatPosition(xPos, i).getName().equals("K") && pieceInteraction.findPieceInThatPosition(xPos, i).getColor() != pieceInfo.getColor()) {
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        // Kur y konst
+        for (int i = xPos+1; i <= 7; i++) {
+            if (pieceInteraction.isThereAPiece(i, yPos)){
+                if (pieceInteraction.findPieceInThatPosition(i, yPos).getName().equals("K") && pieceInteraction.findPieceInThatPosition(i, yPos).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+
+
+        for (int i = xPos-1; i >= 0; i--) {
+            if (pieceInteraction.isThereAPiece(i, yPos)){
+                if (pieceInteraction.findPieceInThatPosition(i, yPos).getName().equals("K") && pieceInteraction.findPieceInThatPosition(i, yPos).getColor() != pieceInfo.getColor()){
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
 }

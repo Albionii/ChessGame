@@ -1,6 +1,6 @@
 public abstract class Piece {
     public PieceInfo pieceInfo;
-    public boolean check;
+    public boolean everChecked;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
 
@@ -21,7 +21,6 @@ public abstract class Piece {
     public void move(int xPosition, int yPosition) {
         xPos = xPosition;
         yPos = yPosition;
-        System.out.println("isAnyPieceOnTheWay: " + isAnyPieceOnTheWay());
         if (isLegalMove()){
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
                 if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
@@ -41,8 +40,6 @@ public abstract class Piece {
 
 
     public void updatePosition(){
-
-        System.out.println("kingChecked() : " + kingChecked());
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
         if (pieceInfo.getColor() == 'W')
@@ -56,9 +53,9 @@ public abstract class Piece {
         return pieceInfo.getColor() == pieceInteraction.whiteOrBlackTurn;
     }
     public boolean ifPieceDidNotMove(){return pieceInfo.getLastX() == xPos && pieceInfo.getLastY() == yPos;}
-    public boolean kingChecked() {
+    public  boolean kingChecked(){
         return false;
-    }
+    };
 
 
 
