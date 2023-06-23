@@ -77,6 +77,7 @@ public class Queen extends Piece{
         return xPos == pieceInfo.getLastX() || yPos == pieceInfo.getLastY() || yPos + k == pieceInfo.getLastY() || yPos - k == pieceInfo.getLastY();
     }
 
+
     @Override
     public boolean kingChecked() {
 

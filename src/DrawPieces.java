@@ -13,7 +13,7 @@ public class DrawPieces {
     public DrawPieces(JLabel boardLabel) {
         this.boardLabel = boardLabel;
         draw();
-        PieceInteraction pI = new PieceInteraction(pieceInfos);
+        PieceInteraction pI = new PieceInteraction(pieceInfos, pieceLabels);
         MovePieces movePieces = new MovePieces(pieceInfos, boardLabel, pI);
     }
 

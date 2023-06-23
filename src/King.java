@@ -28,13 +28,41 @@ public class King extends Piece {
         return xDistance && yDistance;
     }
 
-    public void castle() {
-        if (everChecked || canNotCastle) {
-            canNotCastle = true;
-        }
+    public boolean isLegalMove() {
 
-
+        return isItYourTurn() && !isAnyPieceOnTheWay() && isMoveInPieceScope() && !ifPieceDidNotMove() && !isSquareUnderAttack();
     }
 
+    public boolean isSquareUnderAttack() {
+        int tempXKing = 0;
+        int tempYKing = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()){
+                    Piece piece = PieceFactory.createPiece(pieceInteraction.pieceInfos[i][j]);
+                    piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
+                    tempYKing = pieceInfo.getLastY();
+                    tempXKing = pieceInfo.getLastX();
+                    pieceInfo.setPiecePosition(xPos, yPos);
+                    if (piece.kingChecked()){
+                        System.out.println("Figura qe sulmon : " + pieceInteraction.pieceInfos[i][j].getName());
+                        pieceInfo.setPiecePosition(tempXKing, tempYKing);
+                        pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
+                        if (pieceInfo.getColor() == 'W')
+                            pieceInteraction.whiteOrBlackTurn = 'B';
+                        else
+                            pieceInteraction.whiteOrBlackTurn = 'W';
+
+                        return true;
+                    }
+                }
+            }
+            if (pieceInfo.getColor() == 'W')
+                pieceInteraction.whiteOrBlackTurn = 'B';
+            else
+                pieceInteraction.whiteOrBlackTurn = 'W';
+        }
+        return false;
+    }
 
 }

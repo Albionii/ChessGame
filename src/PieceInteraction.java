@@ -1,9 +1,13 @@
+import javax.swing.*;
+
 public class PieceInteraction {
     public PieceInfo[][] pieceInfos;
     public char whiteOrBlackTurn = 'W';
+    public JLabel[][] pieceLabels;
 
 
-    public PieceInteraction(PieceInfo[][] pieceInfos) {
+    public PieceInteraction(PieceInfo[][] pieceInfos, JLabel[][] pieceLabels) {
+        this.pieceLabels = pieceLabels;
         this.pieceInfos = pieceInfos;
     }
     public PieceInfo[][] getPieceInfos() {

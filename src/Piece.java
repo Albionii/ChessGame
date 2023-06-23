@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 public abstract class Piece {
     public PieceInfo pieceInfo;
     public boolean everChecked;
@@ -46,6 +49,11 @@ public abstract class Piece {
             pieceInteraction.whiteOrBlackTurn = 'B';
         else
             pieceInteraction.whiteOrBlackTurn = 'W';
+
+        if (kingChecked()){
+            pieceInteraction.pieceLabels[2][4].setOpaque(true);
+            pieceInteraction.pieceLabels[2][4].setBackground(Color.red);
+        }
     }
 
     public boolean isLegalMove() {return isItYourTurn() && !isAnyPieceOnTheWay() && isMoveInPieceScope() && !ifPieceDidNotMove();}
@@ -56,7 +64,10 @@ public abstract class Piece {
     public  boolean kingChecked(){
         return false;
     };
-
+    public void setXandY(int xPos, int yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
 
 
 
