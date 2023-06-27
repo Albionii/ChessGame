@@ -10,7 +10,7 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean isAnyPieceOnTheWay() {
+    public boolean isAnyPieceOnTheWay(int x, int y) {
         return false;
     }
 
@@ -29,8 +29,7 @@ public class King extends Piece {
     }
 
     public boolean isLegalMove() {
-
-        return isItYourTurn() && !isAnyPieceOnTheWay() && isMoveInPieceScope() && !ifPieceDidNotMove() && !isSquareUnderAttack();
+        return isItYourTurn() && !isAnyPieceOnTheWay(xPos, yPos) && isMoveInPieceScope() && !ifPieceDidNotMove() && !isSquareUnderAttack();
     }
 
     public boolean isSquareUnderAttack() {
@@ -38,30 +37,29 @@ public class King extends Piece {
         int tempYKing = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
-                if (pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()){
+                if (pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor() && !pieceInteraction.pieceInfos[i][j].isPieceDead){
                     Piece piece = PieceFactory.createPiece(pieceInteraction.pieceInfos[i][j]);
                     piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
                     tempYKing = pieceInfo.getLastY();
                     tempXKing = pieceInfo.getLastX();
                     pieceInfo.setPiecePosition(xPos, yPos);
+                    pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
                     if (piece.kingChecked()){
+                        System.out.println("tempXKing : " + tempXKing);
+                        System.out.println("tempYKing : " + tempYKing);
                         System.out.println("Figura qe sulmon : " + pieceInteraction.pieceInfos[i][j].getName());
                         pieceInfo.setPiecePosition(tempXKing, tempYKing);
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
-                        if (pieceInfo.getColor() == 'W')
-                            pieceInteraction.whiteOrBlackTurn = 'B';
-                        else
-                            pieceInteraction.whiteOrBlackTurn = 'W';
-
                         return true;
+                    }
+                    else {
+                        pieceInfo.setPiecePosition(tempXKing, tempYKing);
+                        pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
                     }
                 }
             }
-            if (pieceInfo.getColor() == 'W')
-                pieceInteraction.whiteOrBlackTurn = 'B';
-            else
-                pieceInteraction.whiteOrBlackTurn = 'W';
         }
+        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
         return false;
     }
 

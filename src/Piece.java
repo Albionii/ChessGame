@@ -1,9 +1,8 @@
-import javax.swing.*;
 import java.awt.*;
 
 public abstract class Piece {
     public PieceInfo pieceInfo;
-    public boolean everChecked;
+    public boolean isKingInCheck;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
 
@@ -19,14 +18,16 @@ public abstract class Piece {
     public void pieceKilled(PieceInfo p) {
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
+        pieceInteraction.findPieceInThatPosition(p.getLastX(), p.getLastY()).isPieceDead = true;
     }
+
 
     public void move(int xPosition, int yPosition) {
         xPos = xPosition;
         yPos = yPosition;
         if (isLegalMove()){
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
-                if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
+                if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor() && !kingChecked()){
                     pieceTakes();
                 }else {
                     restartPreviousMove();
@@ -45,25 +46,21 @@ public abstract class Piece {
     public void updatePosition(){
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
-        if (pieceInfo.getColor() == 'W')
-            pieceInteraction.whiteOrBlackTurn = 'B';
-        else
-            pieceInteraction.whiteOrBlackTurn = 'W';
-
-        if (kingChecked()){
-            pieceInteraction.pieceLabels[2][4].setOpaque(true);
-            pieceInteraction.pieceLabels[2][4].setBackground(Color.red);
-        }
+        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
     }
 
-    public boolean isLegalMove() {return isItYourTurn() && !isAnyPieceOnTheWay() && isMoveInPieceScope() && !ifPieceDidNotMove();}
+    public boolean isLegalMove() {return isItYourTurn() && !isAnyPieceOnTheWay(xPos, yPos) && isMoveInPieceScope() && !ifPieceDidNotMove();}
     public boolean isItYourTurn() {
         return pieceInfo.getColor() == pieceInteraction.whiteOrBlackTurn;
     }
     public boolean ifPieceDidNotMove(){return pieceInfo.getLastX() == xPos && pieceInfo.getLastY() == yPos;}
-    public  boolean kingChecked(){
-        return false;
-    };
+    public boolean isKingInPieceScope(int xKing, int yKing) {return false;}
+    public boolean kingChecked() {
+        int x = pieceInteraction.getPieceInfos()[pieceInfo.getColor()=='B' ? 2:0][4].getLastX();
+        int y = pieceInteraction.getPieceInfos()[pieceInfo.getColor()=='B' ? 2:0][4].getLastY();
+        return isKingInPieceScope(x,y) && !isAnyPieceOnTheWay(x,y);
+    }
+
     public void setXandY(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -73,7 +70,7 @@ public abstract class Piece {
 
     //* Metodat abstrakte
     public abstract void pieceTakes();
-    public abstract boolean isAnyPieceOnTheWay();
+    public abstract boolean isAnyPieceOnTheWay(int x, int y);
     public abstract boolean isMoveInPieceScope();
 
 

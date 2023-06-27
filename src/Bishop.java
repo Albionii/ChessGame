@@ -8,35 +8,26 @@ public class Bishop extends Piece{
         pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
     }
 
-
     @Override
-    public boolean isAnyPieceOnTheWay() {
+    public boolean isAnyPieceOnTheWay(int x, int y) {
         int min = 0, max = 0;
-        int k = pieceInfo.getLastX() - xPos;
-        if (yPos > pieceInfo.getLastY()){
-
-            for (int i = pieceInfo.getLastY()+1; i < yPos; i++) {
-                int temp = (xPos < pieceInfo.getLastX() && xPos != pieceInfo.getLastX() ? --k : ++k);
-                if (pieceInteraction.isThereAPiece(xPos + temp, i)){
-                    System.out.println("X : " + (xPos + k));
-                    System.out.println("Y : " + i);
+        int k = pieceInfo.getLastX() - x;
+        if (y > pieceInfo.getLastY()){
+            for (int i = pieceInfo.getLastY()+1; i < y; i++) {
+                int temp = (x < pieceInfo.getLastX() && x != pieceInfo.getLastX() ? --k : ++k);
+                if (pieceInteraction.isThereAPiece(x + temp, i)){
                     return true;
-
                 }
             }
         }
-        else if (yPos < pieceInfo.getLastY()){
-            for (int i = pieceInfo.getLastY()-1; i > yPos; i--) {
-                int temp = (xPos < pieceInfo.getLastX() && xPos != pieceInfo.getLastX() ? --k : ++k);
-                if (pieceInteraction.isThereAPiece(xPos + temp, i)){
-                    System.out.println("X : " + (xPos + k));
-                    System.out.println("Y : " + i);
+        else if (y < pieceInfo.getLastY()){
+            for (int i = pieceInfo.getLastY()-1; i > y; i--) {
+                int temp = (x < pieceInfo.getLastX() && x != pieceInfo.getLastX() ? --k : ++k);
+                if (pieceInteraction.isThereAPiece(x + temp, i)){
                     return true;
-
                 }
             }
         }
-
         return false;
     }
 
@@ -45,51 +36,10 @@ public class Bishop extends Piece{
         int k = pieceInfo.getLastX() - xPos;
         return yPos + k == pieceInfo.getLastY() || yPos - k == pieceInfo.getLastY();
     }
-
-    @Override
-    public boolean kingChecked() {
-
-        for (int i = yPos + 1; i <= 7; i++) {
-            if (pieceInteraction.isThereAPiece(xPos + (yPos-i), i)){
-                if (pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getName().equals("K")
-                        && pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getColor() != pieceInfo.getColor()){
-                    return true;
-                }
-                break;
-            }
-        }
-
-        for (int i = yPos + 1; i <= 7; i++) {
-            if (pieceInteraction.isThereAPiece(xPos - (yPos-i), i)){
-                if (pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getName().equals("K")
-                        && pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getColor() != pieceInfo.getColor()){
-                    return true;
-                }
-                break;
-            }
-        }
-
-
-        for (int i = yPos - 1; i >=0; i--) {
-            if (pieceInteraction.isThereAPiece(xPos + (yPos-i), i)){
-                if (pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getName().equals("K")
-                        && pieceInteraction.findPieceInThatPosition(xPos + (yPos-i), i).getColor() != pieceInfo.getColor()){
-                    return true;
-                }
-                break;
-            }
-        }
-
-        for (int i = yPos - 1; i >=0; i--) {
-            if (pieceInteraction.isThereAPiece(xPos -(yPos-i), i)){
-                if (pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getName().equals("K")
-                        && pieceInteraction.findPieceInThatPosition(xPos - (yPos-i), i).getColor() != pieceInfo.getColor()){
-                    return true;
-                }
-                break;
-            }
-        }
-        return false;
+    public boolean isKingInPieceScope(int xKing, int yKing) {
+        int k = pieceInfo.getLastX() - xKing;
+        return yKing + k == pieceInfo.getLastY() || yKing - k == pieceInfo.getLastY();
     }
+
 
 }

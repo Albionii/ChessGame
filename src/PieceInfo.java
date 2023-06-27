@@ -5,6 +5,7 @@ public class PieceInfo {
     private JLabel pieceLabel;
     private String name;
     private int xPosition, yPosition;
+    public boolean isPieceDead;
 
 
     public PieceInfo setColor(char color){

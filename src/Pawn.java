@@ -5,20 +5,14 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean kingChecked() {
-        return false;
-    }
-
-    @Override
     public void pieceTakes() {
         if (pieceInteraction.isThereAPiece(xPos, yPos)){
             if (pieceInfo.getColor() == 'W' && pieceInfo.getLastY() - yPos == 1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
                 pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
             }
-            if (pieceInfo.getColor() == 'B' && pieceInfo.getLastY() - yPos == -1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
+            else if (pieceInfo.getColor() == 'B' && pieceInfo.getLastY() - yPos == -1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
                 pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
             }
-
             // !Rasti enPassant me duhet me u merr me to pak ma vone
 
         }
@@ -32,18 +26,18 @@ public class Pawn extends Piece{
      * false nese figura nuk ekziston.
      */
     @Override
-    public boolean isAnyPieceOnTheWay() {
-        if (pieceInfo.getLastX() == xPos){
+    public boolean isAnyPieceOnTheWay(int x, int y) {
+        if (pieceInfo.getLastX() == x){
             if (pieceInfo.getColor() == 'B'){
-                for (int i = pieceInfo.getLastY()+1; i <= yPos; i++) {
-                    if (pieceInteraction.isThereAPiece(xPos, i)){
+                for (int i = pieceInfo.getLastY()+1; i <= y; i++) {
+                    if (pieceInteraction.isThereAPiece(x, i)){
                         return true;
                     }
                 }
             }
             else {
-                for (int i = pieceInfo.getLastY()-1; i >= yPos; i--) {
-                    if (pieceInteraction.isThereAPiece(xPos, i)){
+                for (int i = pieceInfo.getLastY()-1; i >= y; i--) {
+                    if (pieceInteraction.isThereAPiece(x, i)){
                         return true;
                     }
                 }
@@ -58,7 +52,7 @@ public class Pawn extends Piece{
     public boolean isMoveInPieceScope() {
         if (pieceInfo.getColor() == 'W'){
             if (pieceInteraction.isThereAPiece(xPos, yPos))
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos <= 1;
+                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == 1;
             else
                 return Math.abs(pieceInfo.getLastX() - xPos) == 0 &&
                         (pieceInfo.getLastY() == 6
@@ -67,12 +61,20 @@ public class Pawn extends Piece{
         }
         else {
             if (pieceInteraction.isThereAPiece(xPos, yPos))
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos >= -1;
+                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == -1;
             else
                 return Math.abs(pieceInfo.getLastX() - xPos) == 0 &&
                         (pieceInfo.getLastY() == 1
                                 ? (pieceInfo.getLastY() - yPos >=-2 && pieceInfo.getLastY() - yPos <=0)
                                 : (pieceInfo.getLastY() - yPos <= 0 && pieceInfo.getLastY() - yPos >= -1)); //*Ky kod eshte me i zgjatur ne menyre qe piunat te mos kthehen pas
         }
+    }
+
+    public boolean isKingInPieceScope(int xKing, int yKing){
+        if (pieceInteraction.findPieceInThatPosition(xKing, yKing).getName().equals("K")&&
+                    pieceInteraction.findPieceInThatPosition(xKing, yKing).getColor() != pieceInfo.getColor()){
+            return Math.abs(pieceInfo.getLastX() - xKing) == 1 && (pieceInfo.getLastY() - yKing) == ((pieceInfo.getColor() == 'W') ? 1 : -1);
+        }
+        return false;
     }
 }
