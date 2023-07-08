@@ -6,6 +6,7 @@ public class PieceInfo {
     private String name;
     private int xPosition, yPosition;
     public boolean isPieceDead;
+    public boolean enPassant;
 
 
     public PieceInfo setColor(char color){
@@ -47,6 +48,14 @@ public class PieceInfo {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         return this;
+    }
+
+    public boolean isEnPassant() {
+        return enPassant;
+    }
+
+    public void setEnPassant(boolean e) {
+        enPassant = e;
     }
 
     public boolean equals(Object o){

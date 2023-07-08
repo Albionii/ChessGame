@@ -49,7 +49,7 @@ public class Rook extends Piece{
     }
 
     public boolean isKingInPieceScope(int xKing, int yKing) {
-        return pieceInfo.getLastX() == xKing || pieceInfo.getLastY() == yKing;
+        return !(pieceInfo.getLastX() == xKing && pieceInfo.getLastY() == yKing)&&(pieceInfo.getLastX() == xKing || pieceInfo.getLastY() == yKing);
     }
 
 }

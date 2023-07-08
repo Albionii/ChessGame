@@ -1,5 +1,7 @@
 public class Pawn extends Piece{
-    private boolean enPassant;
+    public boolean enPassant;
+    public PieceInfo enPassantKilled;
+
     public Pawn(PieceInfo pieceInfo) {
         super(pieceInfo);
     }
@@ -51,30 +53,65 @@ public class Pawn extends Piece{
     @Override
     public boolean isMoveInPieceScope() {
         if (pieceInfo.getColor() == 'W'){
-            if (pieceInteraction.isThereAPiece(xPos, yPos))
-                return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == 1;
-            else
+            enPassant = pieceInfo.getLastY() == 6 && (pieceInfo.getLastY() - yPos == 2);  //* Ketu ndryshon vlera e piunit nese eshte ne nje pozite per levizjen enpassant
+            pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX(), pieceInfo.getLastY()).setEnPassant(enPassant);
+
+            if (enPassantMove()){
+                if (xPos == enPassantKilled.getLastX() && pieceInfo.getLastY() - yPos == 1){
+                    pieceKilled(enPassantKilled);
+                    return true;
+                }
+            }
+
+            if (pieceInteraction.isThereAPiece(xPos, yPos)){
+                 return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == 1;
+            }
+            else{
                 return Math.abs(pieceInfo.getLastX() - xPos) == 0 &&
                         (pieceInfo.getLastY() == 6
                             ? (pieceInfo.getLastY() - yPos <=2 && pieceInfo.getLastY() - yPos >=0)
                             : (pieceInfo.getLastY() - yPos <= 1 && pieceInfo.getLastY() - yPos >= 0));
+            }
         }
         else {
-            if (pieceInteraction.isThereAPiece(xPos, yPos))
+            enPassant = pieceInfo.getLastY() == 1 && (pieceInfo.getLastY() - yPos == -2);  //* Ketu ndryshon vlera e piunit nese eshte ne nje pozite per levizjen enpassant
+            pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX(), pieceInfo.getLastY()).setEnPassant(enPassant);
+
+
+            if (enPassantMove()){
+                if (xPos == enPassantKilled.getLastX() && pieceInfo.getLastY() - yPos == -1){
+                    pieceKilled(enPassantKilled);
+                    return true;
+                }
+            }
+
+            if (pieceInteraction.isThereAPiece(xPos, yPos)){
                 return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == -1;
-            else
+            }
+            else{
                 return Math.abs(pieceInfo.getLastX() - xPos) == 0 &&
                         (pieceInfo.getLastY() == 1
                                 ? (pieceInfo.getLastY() - yPos >=-2 && pieceInfo.getLastY() - yPos <=0)
                                 : (pieceInfo.getLastY() - yPos <= 0 && pieceInfo.getLastY() - yPos >= -1)); //*Ky kod eshte me i zgjatur ne menyre qe piunat te mos kthehen pas
+            }
+
         }
     }
 
-    public boolean isKingInPieceScope(int xKing, int yKing){
-        if (pieceInteraction.findPieceInThatPosition(xKing, yKing).getName().equals("K")&&
-                    pieceInteraction.findPieceInThatPosition(xKing, yKing).getColor() != pieceInfo.getColor()){
-            return Math.abs(pieceInfo.getLastX() - xKing) == 1 && (pieceInfo.getLastY() - yKing) == ((pieceInfo.getColor() == 'W') ? 1 : -1);
+    public boolean enPassantMove(){
+        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()-1, pieceInfo.getLastY()) && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).isEnPassant()){
+            enPassantKilled = pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY());
+            return true;
+        }
+        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()+1, pieceInfo.getLastY()) && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY()).isEnPassant()){
+            enPassantKilled = pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY());
+            return true;
         }
         return false;
+    }
+
+
+    public boolean isKingInPieceScope(int xKing, int yKing){
+        return (pieceInfo.getColor() == 'B' ? pieceInfo.getLastY() - yKing == -1 : pieceInfo.getLastY() - yKing == 1) && (pieceInfo.getLastX() - 1 == xKing || pieceInfo.getLastX() + 1 == xKing);
     }
 }

@@ -76,8 +76,7 @@ public class DrawPieces {
                                 .setPiecePosition(j, 9-i);
                     }
                     boardLabel.add(pieceLabels[i][j]);
-
-                }
+                 }
             }
             nameThePieces();
 

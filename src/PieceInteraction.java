@@ -38,4 +38,15 @@ public class PieceInteraction {
         }
         return null;
     }
+
+    public PieceInfo findPieceInfoInArray(PieceInfo p) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(pieceInfos[i][j].getLastX() == p.getLastX() && pieceInfos[i][j].getLastY() == p.getLastY()){
+                    return pieceInfos[i][j];
+                }
+            }
+        }
+        return null;
+    }
 }

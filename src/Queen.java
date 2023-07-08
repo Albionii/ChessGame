@@ -74,7 +74,7 @@ public class Queen extends Piece{
 
     public boolean isKingInPieceScope(int xKing, int yKing){
         int k = pieceInfo.getLastX() - xKing;
-        return xKing == pieceInfo.getLastX() || yKing == pieceInfo.getLastY() || yKing + k == pieceInfo.getLastY() || yKing - k == pieceInfo.getLastY();
+        return !(pieceInfo.getLastX() == xKing && pieceInfo.getLastY() == yKing) && (xKing == pieceInfo.getLastX() || yKing == pieceInfo.getLastY() || yKing + k == pieceInfo.getLastY() || yKing - k == pieceInfo.getLastY());
     }
 
 }

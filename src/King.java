@@ -37,7 +37,7 @@ public class King extends Piece {
         int tempYKing = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
-                if (pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor() && !pieceInteraction.pieceInfos[i][j].isPieceDead){
+                if ((pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
                     Piece piece = PieceFactory.createPiece(pieceInteraction.pieceInfos[i][j]);
                     piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
                     tempYKing = pieceInfo.getLastY();
@@ -48,6 +48,7 @@ public class King extends Piece {
                         System.out.println("tempXKing : " + tempXKing);
                         System.out.println("tempYKing : " + tempYKing);
                         System.out.println("Figura qe sulmon : " + pieceInteraction.pieceInfos[i][j].getName());
+                        System.out.println("Ngjyra e fig : " + pieceInteraction.pieceInfos[i][j].getColor());
                         pieceInfo.setPiecePosition(tempXKing, tempYKing);
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
                         return true;

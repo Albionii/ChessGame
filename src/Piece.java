@@ -1,7 +1,6 @@
-import java.awt.*;
-
 public abstract class Piece {
     public PieceInfo pieceInfo;
+    public int countTurnForEnPassant;
     public boolean isKingInCheck;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
@@ -16,9 +15,12 @@ public abstract class Piece {
     }
 
     public void pieceKilled(PieceInfo p) {
+        pieceInteraction.findPieceInThatPosition(p.getLastX(), p.getLastY()).isPieceDead = true;
+//        pieceInteraction.findPieceInfoInArray(p).setPiecePosition(9 ,1);
+//        pieceInteraction.findPieceInfoInArray(p).getPieceLabel().setLocation(900, 100);
+//
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
-        pieceInteraction.findPieceInThatPosition(p.getLastX(), p.getLastY()).isPieceDead = true;
     }
 
 
