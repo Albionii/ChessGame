@@ -4,6 +4,8 @@ public class PieceInteraction {
     public PieceInfo[][] pieceInfos;
     public char whiteOrBlackTurn = 'W';
     public JLabel[][] pieceLabels;
+    public int countTurnForEnPassant;
+    public boolean moved2Squares;
 
 
     public PieceInteraction(PieceInfo[][] pieceInfos, JLabel[][] pieceLabels) {
@@ -42,7 +44,7 @@ public class PieceInteraction {
     public PieceInfo findPieceInfoInArray(PieceInfo p) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
-                if(pieceInfos[i][j].getLastX() == p.getLastX() && pieceInfos[i][j].getLastY() == p.getLastY()){
+                if(pieceInfos[i][j].equals(p)){
                     return pieceInfos[i][j];
                 }
             }

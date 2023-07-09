@@ -1,6 +1,5 @@
 public abstract class Piece {
     public PieceInfo pieceInfo;
-    public int countTurnForEnPassant;
     public boolean isKingInCheck;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;

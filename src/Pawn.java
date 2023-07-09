@@ -54,10 +54,27 @@ public class Pawn extends Piece{
     public boolean isMoveInPieceScope() {
         if (pieceInfo.getColor() == 'W'){
             enPassant = pieceInfo.getLastY() == 6 && (pieceInfo.getLastY() - yPos == 2);  //* Ketu ndryshon vlera e piunit nese eshte ne nje pozite per levizjen enpassant
-            pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX(), pieceInfo.getLastY()).setEnPassant(enPassant);
+            pieceInteraction.findPieceInfoInArray(pieceInfo).setEnPassant(enPassant);
+
+            /*
+            *A bit ugly code but it works.
+            */
+            if (pieceInteraction.moved2Squares){
+                pieceInteraction.countTurnForEnPassant++;
+                if (pieceInteraction.countTurnForEnPassant == 3){
+                    pieceInteraction.moved2Squares = false;
+                    pieceInteraction.countTurnForEnPassant = 0;
+                }
+            }
+
+            if (enPassant) {
+                pieceInteraction.moved2Squares = true;
+                pieceInteraction.countTurnForEnPassant=1;
+            }
+
 
             if (enPassantMove()){
-                if (xPos == enPassantKilled.getLastX() && pieceInfo.getLastY() - yPos == 1){
+                if (xPos == enPassantKilled.getLastX() && pieceInfo.getLastY() - yPos == 1 && pieceInteraction.countTurnForEnPassant == 2){
                     pieceKilled(enPassantKilled);
                     return true;
                 }
@@ -99,11 +116,16 @@ public class Pawn extends Piece{
     }
 
     public boolean enPassantMove(){
-        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()-1, pieceInfo.getLastY()) && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).isEnPassant()){
+
+        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()-1, pieceInfo.getLastY())
+                && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).isEnPassant()
+                && pieceInfo.getColor() != pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).getColor()){
             enPassantKilled = pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY());
             return true;
         }
-        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()+1, pieceInfo.getLastY()) && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY()).isEnPassant()){
+        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()+1, pieceInfo.getLastY())
+                && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY()).isEnPassant()
+                && pieceInfo.getColor() != pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).getColor()){
             enPassantKilled = pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY());
             return true;
         }
