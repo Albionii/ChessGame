@@ -18,7 +18,17 @@ public class King extends Piece {
     public boolean isMoveInPieceScope() {
         int temp1 = Math.abs(xPos - pieceInfo.getLastX());
         int temp2 = Math.abs(yPos - pieceInfo.getLastY());
-        return (temp1 * temp2 == 1 || (temp1 == 0 && temp2 == 1 || temp2 == 0 && temp1 == 1)) && !kingStareDown();
+        boolean kingCastlePosition = pieceInfo.getColor() == 'W' ? (xPos == 6 && yPos == 7) || (xPos == 2 && yPos == 7) : (xPos == 6 && yPos == 0) || (xPos == 2 && yPos == 0);
+        boolean condition1 = (temp1 * temp2 == 1 || (temp1 == 0 && temp2 == 1 || temp2 == 0 && temp1 == 1));
+        boolean condition2 = condition1 || kingCastlePosition;
+
+        if (canKingCastle() && !canNotCastle && condition2 && !kingStareDown()){
+            pieceInteraction.findPieceInThatPosition((xPos == 6)?7:0, yPos).getPieceLabel().setLocation((xPos == 6)?500:300 , yPos*100);
+            pieceInteraction.findPieceInThatPosition((xPos == 6)?7:0, yPos).setPiecePosition((xPos == 6)?5:3, yPos);
+            canNotCastle = false;
+            return true;
+        }
+        return condition1 && !kingStareDown();
     }
 
     public boolean kingStareDown() {
@@ -29,7 +39,11 @@ public class King extends Piece {
     }
 
     public boolean isLegalMove() {
-        return isItYourTurn() && !isAnyPieceOnTheWay(xPos, yPos) && isMoveInPieceScope() && !ifPieceDidNotMove() && !isSquareUnderAttack();
+        if (isItYourTurn() && isMoveInPieceScope() && !ifPieceDidNotMove() && !isSquareUnderAttack()){
+            canNotCastle = true;
+            return true;
+        }
+        return false;
     }
 
     public boolean isSquareUnderAttack() {
@@ -63,5 +77,23 @@ public class King extends Piece {
         pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
         return false;
     }
+
+    public boolean canKingCastle() {
+        if (!canNotCastle && ((xPos - pieceInfo.getLastX()) == 2 || (xPos - pieceInfo.getLastX()) == -2) && yPos == pieceInfo.getLastY()){
+            for(int i = pieceInfo.getLastX()+1; i < xPos; i++){
+                if (pieceInteraction.isThereAPiece(i, pieceInfo.getLastY())){
+                    return false;
+                }
+            }
+            for(int i = xPos+1; i < pieceInfo.getLastX(); i++){
+                if (pieceInteraction.isThereAPiece(i, pieceInfo.getLastY())){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 
 }
