@@ -19,13 +19,6 @@ public class Pawn extends Piece{
         }
     }
 
-    /**
-     * Nese nje figure gjendet ne mes te rruges se nje figure tjeter.
-     * Kjo metode ekziston qe te mos kapercehen figurat.
-     * @return Kthen vlere boolean.
-     * True nese figura ekziston, dhe
-     * false nese figura nuk ekziston.
-     */
     @Override
     public boolean isAnyPieceOnTheWay(int x, int y) {
         if (pieceInfo.getLastX() == x){
