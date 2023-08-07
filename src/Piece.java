@@ -3,6 +3,7 @@ public abstract class Piece {
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
 
+
     public Piece(PieceInfo pieceInfo) {
         this.pieceInfo = pieceInfo;
     }
@@ -15,6 +16,11 @@ public abstract class Piece {
         pieceInfo.setPiecePosition(pieceInfo.getLastX(), pieceInfo.getLastY());
         pieceInfo.getPieceLabel().setLocation(pieceInfo.getLastX()*100, pieceInfo.getLastY()*100);
     }
+    public void restartMove(int x, int y) {
+        pieceInfo.setPiecePosition(x, y);
+        pieceInfo.getPieceLabel().setLocation(x*100, y*100);
+    }
+
 
     /**
      * Kur merret nje figure me ane te nje figure tjeter, ajo vendoset jashte dritares.
@@ -32,11 +38,12 @@ public abstract class Piece {
      * @param yPosition eshte integer nga 0 deri ne 9.
      */
     public void move(int xPosition, int yPosition) {
+//        System.out.println(kingChecked());
         xPos = xPosition;
         yPos = yPosition;
         if (isLegalMove()){
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
-                if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor() && !kingChecked()){
+                if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
                     pieceTakes();
                 }else {
                     restartPreviousMove();
@@ -51,25 +58,29 @@ public abstract class Piece {
     }
 
 
-//    public boolean doesMoveLeaveKingOpenToCheck(){
-//        int tempX = pieceInfo.getLastX();
-//        int tempY = pieceInfo.getLastY();
-//        pieceInfo.setPiecePosition(xPos, yPos);
-//        if (kingChecked()){
-//            pieceInfo.setPiecePosition(tempX, tempY);
-//            return true;
-//        }
-//        return false;
-//    }
-
 
     /**
      * Ne poziten nga parametrat e metodes move(), kjo e mundeson levizjen e figures kur plotesohet kushti nese levizja eshte e lejuar.
      */
     public void updatePosition(){
+        int tempX = pieceInfo.getLastX();
+        int tempY = pieceInfo.getLastY();
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
+        System.out.println("kingChecked() : " + kingChecked());
+        if (kingChecked() && !pieceInteraction.kingGotChecked){
+            pieceInteraction.kingGotChecked = true;
+            pieceInteraction.pieceThatAttacked = this;
+        }
+        System.out.println("ifMovePreventsCheck() : " + ifMovePreventsCheck());
+        if (pieceInteraction.pieceThatAttacked != this && ifMovePreventsCheck()){
+            restartMove(tempX, tempY);
+            return;
+        }
+
+
         pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
+
     }
 
     /**
@@ -77,7 +88,11 @@ public abstract class Piece {
      * @return true nese levizja eshte e mundun.
      * false nese levizja nuk eshte e mundun.
      */
-    public boolean isLegalMove() {return isItYourTurn() && !isAnyPieceOnTheWay(xPos, yPos) && isMoveInPieceScope() && !ifPieceDidNotMove();}
+    public boolean isLegalMove() {return
+            isItYourTurn() &&
+            !isAnyPieceOnTheWay(xPos, yPos) &&
+            isMoveInPieceScope();// &&
+    }
 
     /**
      * E pamundeson qe te behen dy levizje e me shume nga i njejti lojtar.
@@ -113,6 +128,15 @@ public abstract class Piece {
         int x = pieceInteraction.getPieceInfos()[pieceInfo.getColor()=='B' ? 2:0][4].getLastX();
         int y = pieceInteraction.getPieceInfos()[pieceInfo.getColor()=='B' ? 2:0][4].getLastY();
         return isKingInPieceScope(x,y) && !isAnyPieceOnTheWay(x,y);
+    }
+
+    public boolean ifMovePreventsCheck(){
+
+        if (pieceInteraction.kingGotChecked && pieceInteraction.pieceThatAttacked.kingChecked()){
+            System.out.println("Queen checking? :" + pieceInteraction.pieceThatAttacked.kingChecked());
+            return true;
+        }
+        return false;
     }
 
     public void setXandY(int xPos, int yPos) {

@@ -6,6 +6,9 @@ public class PieceInteraction {
     public JLabel[][] pieceLabels;
     public int countTurnForEnPassant;
     public boolean moved2Squares;
+    public boolean kingGotChecked;
+    public Piece pieceThatAttacked;
+
 
 
     public PieceInteraction(PieceInfo[][] pieceInfos, JLabel[][] pieceLabels) {
@@ -51,4 +54,5 @@ public class PieceInteraction {
         }
         return null;
     }
+
 }
