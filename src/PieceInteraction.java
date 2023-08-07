@@ -4,10 +4,10 @@ public class PieceInteraction {
     public PieceInfo[][] pieceInfos;
     public char whiteOrBlackTurn = 'W';
     public JLabel[][] pieceLabels;
-    public int countTurnForEnPassant;
-    public boolean moved2Squares;
     public boolean kingGotChecked;
     public Piece pieceThatAttacked;
+    public boolean pieceMoved2Times;
+    public PieceInfo pieceThatMoved2Times;
 
 
 

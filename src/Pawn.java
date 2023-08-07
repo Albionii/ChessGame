@@ -44,7 +44,29 @@ public class Pawn extends Piece{
 
     @Override
     public boolean isMoveInPieceScope() {
+        int howManySquareMoved = Math.abs(pieceInfo.getLastY() - yPos);
         if (pieceInfo.getColor() == 'W'){
+            if (pieceInteraction.pieceMoved2Times && pieceInfo.getLastY() == pieceInteraction.pieceThatMoved2Times.getLastY()){
+                if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == -1 && xPos == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - yPos == 1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+                else if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == 1 && xPos == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - yPos == 1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }else if (Math.abs(pieceInfo.getLastX() - xPos) == 0 && (pieceInfo.getLastY() - yPos == 1)){
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+            }
+
+            if (howManySquareMoved == 2){
+                pieceInteraction.pieceMoved2Times = true;
+                pieceInteraction.pieceThatMoved2Times = pieceInfo;
+            }
+
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
                  return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == 1;
             }
@@ -56,6 +78,25 @@ public class Pawn extends Piece{
             }
         }
         else {
+            if (pieceInteraction.pieceMoved2Times && pieceInfo.getLastY() == pieceInteraction.pieceThatMoved2Times.getLastY()){
+                if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == -1 && xPos == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - yPos == -1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+                else if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == 1 && xPos == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - yPos == -1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }else if (Math.abs(pieceInfo.getLastX() - xPos) == 0 && (pieceInfo.getLastY() - yPos == -1)){
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+            }
+            if (howManySquareMoved == 2){
+                pieceInteraction.pieceMoved2Times = true;
+                pieceInteraction.pieceThatMoved2Times = pieceInfo;
+            }
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
                 return Math.abs(pieceInfo.getLastX() - xPos) <= 1 && pieceInfo.getLastY() - yPos == -1;
             }

@@ -38,7 +38,6 @@ public abstract class Piece {
      * @param yPosition eshte integer nga 0 deri ne 9.
      */
     public void move(int xPosition, int yPosition) {
-//        System.out.println(kingChecked());
         xPos = xPosition;
         yPos = yPosition;
         if (isLegalMove()){
@@ -67,20 +66,15 @@ public abstract class Piece {
         int tempY = pieceInfo.getLastY();
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
-        System.out.println("kingChecked() : " + kingChecked());
-        if (kingChecked() && !pieceInteraction.kingGotChecked){
+        if (kingChecked() && !pieceInteraction.kingGotChecked){ //? Ne qofte se nje figure sulmon mbretin e kthen nje variabel true
             pieceInteraction.kingGotChecked = true;
             pieceInteraction.pieceThatAttacked = this;
         }
-        System.out.println("ifMovePreventsCheck() : " + ifMovePreventsCheck());
-        if (pieceInteraction.pieceThatAttacked != this && ifMovePreventsCheck()){
+        if (pieceInteraction.pieceThatAttacked != this && ifMovePreventsCheck() && (!this.pieceInfo.getName().equals("K"))){ //? Nese figura nuk e ndal sulmin, le te kthehet ne poziten fillestare.
             restartMove(tempX, tempY);
             return;
         }
-
-
         pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
-
     }
 
     /**
@@ -91,7 +85,7 @@ public abstract class Piece {
     public boolean isLegalMove() {return
             isItYourTurn() &&
             !isAnyPieceOnTheWay(xPos, yPos) &&
-            isMoveInPieceScope();// &&
+            isMoveInPieceScope();
     }
 
     /**
@@ -130,13 +124,13 @@ public abstract class Piece {
         return isKingInPieceScope(x,y) && !isAnyPieceOnTheWay(x,y);
     }
 
+    /**
+     * Kur nje figure eshte duke sulmuar mbretin kundershtar, dhe nje figure e pengon sulmin.
+     * @return true nese figura qe levize e ndal sulmin e kundershtarit.
+     * false nese figura nuk e ndal sulmin e kundershtarit.
+     */
     public boolean ifMovePreventsCheck(){
-
-        if (pieceInteraction.kingGotChecked && pieceInteraction.pieceThatAttacked.kingChecked()){
-            System.out.println("Queen checking? :" + pieceInteraction.pieceThatAttacked.kingChecked());
-            return true;
-        }
-        return false;
+        return pieceInteraction.kingGotChecked && pieceInteraction.pieceThatAttacked.kingChecked();
     }
 
     public void setXandY(int xPos, int yPos) {
