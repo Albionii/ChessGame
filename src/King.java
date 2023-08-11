@@ -78,15 +78,45 @@ public class King extends Piece {
         return false;
     }
 
+    public boolean isSquareUnderAttack(int one) {
+        int tempXKing = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
+                    Piece piece = PieceFactory.createPiece(pieceInteraction.pieceInfos[i][j]);
+                    piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
+                    tempXKing = pieceInfo.getLastX();
+                    pieceInfo.setPiecePosition((pieceInfo.getLastX()+one), pieceInfo.getLastY());
+                    pieceInfo.getPieceLabel().setLocation((pieceInfo.getLastX()+one)*100, yPos*100);
+                    if (piece.kingChecked()){
+                        System.out.println("tempXKing : " + tempXKing);
+                        System.out.println("tempYKing : " + (pieceInfo.getLastY()));
+                        System.out.println("Figura qe sulmon : " + pieceInteraction.pieceInfos[i][j].getName());
+                        System.out.println("Ngjyra e fig : " + pieceInteraction.pieceInfos[i][j].getColor());
+                        pieceInfo.setPiecePosition(tempXKing, (pieceInfo.getLastY()));
+                        pieceInfo.getPieceLabel().setLocation(tempXKing*100, (pieceInfo.getLastY())*100);
+                        return true;
+                    }
+                    else {
+                        pieceInfo.setPiecePosition(tempXKing, (pieceInfo.getLastY()));
+                        pieceInfo.getPieceLabel().setLocation(tempXKing*100, (pieceInfo.getLastY())*100);
+                    }
+                }
+            }
+        }
+        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
+        return false;
+    }
+
     public boolean canKingCastle() {
         if (!canNotCastle && ((xPos - pieceInfo.getLastX()) == 2 || (xPos - pieceInfo.getLastX()) == -2) && yPos == pieceInfo.getLastY()){
             for(int i = pieceInfo.getLastX()+1; i < xPos; i++){
-                if (pieceInteraction.isThereAPiece(i, pieceInfo.getLastY())){
+                if (pieceInteraction.isThereAPiece(i, pieceInfo.getLastY()) || isSquareUnderAttack(1)){
                     return false;
                 }
             }
             for(int i = xPos+1; i < pieceInfo.getLastX(); i++){
-                if (pieceInteraction.isThereAPiece(i, pieceInfo.getLastY())){
+                if (pieceInteraction.isThereAPiece(i, pieceInfo.getLastY()) || isSquareUnderAttack(-1)){
                     return false;
                 }
             }
@@ -94,6 +124,7 @@ public class King extends Piece {
         }
         return false;
     }
+
 
 
 }
