@@ -1,20 +1,10 @@
 # ChessGame2
- Loja e shahut (optimized)
+![AdobeStock_364059453](https://github.com/Albionii/ChessGame/assets/118879376/cb780fcc-bf09-44ee-8ff3-2a625d5ba5df)
 
-Një lojë shahu e thjesht.
-Do ta krijoj së pari një dizajn për gjuhë OOP(Object Oriented Programming) pastaj atë dizajn do ta implementoj në gjuhën Java.
+A simple chess game.
 
-Qëllimet:
-------------
+This is a simple chess game created with Java using Object Oriented Programming. The game can be played by 2 players in the same computer, and it has all the rules of modern chess, including special ones like EnPassant. This is a screenshot of a random game: 
 
-1. Me anë të librarisë Swing të krijoj një frame i cili përmban tabelën e shahut dhe figurat e saj.
-2. Me anë të mausit të mund të lëvizin figurat.
-3. Figurat mund të lëvizin vetëm në vende të lejuara (legal moves).
-4. Loja të përfundoj kur njëri nga lojtarëve i bën shah-mat tjetrit.
+![ezgif-3-ac5655367c](https://github.com/Albionii/ChessGame/assets/118879376/66787ca1-c6da-48a6-a847-b6a8218def8f)
 
-Bonus:
-------
-1. Para se të filloj loja të krijohet një meny ku lojtarët mund të zgjedhin me cilat figura duan të luajnë (të bardha apo të zeza).
-2. Të shtypët koha me të cilën lojtarët do të luajnë.
-3. Opsionale të ketë kohë me inkrementim.
-4. Me vërejt kur mund të luhet lëvizja **en passant**. 
+
