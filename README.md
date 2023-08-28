@@ -1,4 +1,4 @@
-# ChessGame2
+# ChessGame
 ![AdobeStock_364059453](https://github.com/Albionii/ChessGame/assets/118879376/cb780fcc-bf09-44ee-8ff3-2a625d5ba5df)
 
 A simple chess game.
