@@ -70,7 +70,7 @@ public abstract class Piece {
             pieceInteraction.kingGotChecked = true;
             pieceInteraction.pieceThatAttacked = this;
         }
-        if (pieceInteraction.pieceThatAttacked != this && ifMovePreventsCheck() && (!this.pieceInfo.getName().equals("K"))){ //? Nese figura nuk e ndal sulmin, le te kthehet ne poziten fillestare.
+        if (pieceInteraction.pieceThatAttacked != this && ifMovePreventsCheck() && (!this.pieceInfo.getName().equals("K"))) { //? Nese figura nuk e ndal sulmin, le te kthehet ne poziten fillestare.
             restartMove(tempX, tempY);
             return;
         }

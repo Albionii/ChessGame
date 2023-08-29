@@ -1,4 +1,5 @@
 public class King extends Piece {
+    CheckMateDetector checkMateDetector = new CheckMateDetector(pieceInteraction, this);
     public boolean canNotCastle = false;
     public King(PieceInfo pieceInfo) {
         super(pieceInfo);
@@ -26,6 +27,7 @@ public class King extends Piece {
             pieceInteraction.findPieceInThatPosition((xPos == 6)?7:0, yPos).getPieceLabel().setLocation((xPos == 6)?500:300 , yPos*100);
             pieceInteraction.findPieceInThatPosition((xPos == 6)?7:0, yPos).setPiecePosition((xPos == 6)?5:3, yPos);
             canNotCastle = false;
+//            pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
             return true;
         }
         return condition1 && !kingStareDown();
@@ -39,7 +41,7 @@ public class King extends Piece {
     }
 
     public boolean isLegalMove() {
-        if (isItYourTurn() && isMoveInPieceScope() && !ifPieceDidNotMove() && !isSquareUnderAttack()){
+        if (isItYourTurn() && !isSquareUnderAttack() && !ifPieceDidNotMove() && isMoveInPieceScope()){
             canNotCastle = true;
             return true;
         }
@@ -65,6 +67,7 @@ public class King extends Piece {
                         System.out.println("Ngjyra e fig : " + pieceInteraction.pieceInfos[i][j].getColor());
                         pieceInfo.setPiecePosition(tempXKing, tempYKing);
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
+                        canNotCastle = true;
                         return true;
                     }
                     else {
@@ -89,11 +92,6 @@ public class King extends Piece {
                     pieceInfo.setPiecePosition((pieceInfo.getLastX()+one), pieceInfo.getLastY());
                     pieceInfo.getPieceLabel().setLocation((pieceInfo.getLastX()+one)*100, yPos*100);
                     if (piece.kingChecked()){
-                        System.out.println("tempXKing : " + tempXKing);
-                        System.out.println("tempYKing : " + (pieceInfo.getLastY()));
-                        System.out.println("Figura qe sulmon : " + pieceInteraction.pieceInfos[i][j].getName());
-                        System.out.println("Ngjyra e fig : " + pieceInteraction.pieceInfos[i][j].getColor());
-                        pieceInfo.setPiecePosition(tempXKing, (pieceInfo.getLastY()));
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, (pieceInfo.getLastY())*100);
                         return true;
                     }
@@ -104,7 +102,7 @@ public class King extends Piece {
                 }
             }
         }
-        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
+//        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
         return false;
     }
 
