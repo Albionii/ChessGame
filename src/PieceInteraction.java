@@ -5,9 +5,11 @@ public class PieceInteraction {
     public char whiteOrBlackTurn = 'W';
     public JLabel[][] pieceLabels;
     public boolean kingGotChecked;
+
     public Piece pieceThatAttacked;
     public boolean pieceMoved2Times;
     public PieceInfo pieceThatMoved2Times;
+    public static Piece [][] pieces;
 
 
 
@@ -15,6 +17,8 @@ public class PieceInteraction {
         this.pieceLabels = pieceLabels;
         this.pieceInfos = pieceInfos;
     }
+
+
     public PieceInfo[][] getPieceInfos() {
         return pieceInfos;
     }

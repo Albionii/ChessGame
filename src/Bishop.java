@@ -36,6 +36,13 @@ public class Bishop extends Piece{
         int k = pieceInfo.getLastX() - xPos;
         return yPos + k == pieceInfo.getLastY() || yPos - k == pieceInfo.getLastY();
     }
+
+    @Override
+    public boolean isMoveInPieceScope(int x, int y) {
+        int k = pieceInfo.getLastX() - x;
+        return y + k == pieceInfo.getLastY() || y - k == pieceInfo.getLastY();
+    }
+
     public boolean isKingInPieceScope(int xKing, int yKing) {
         int k = pieceInfo.getLastX() - xKing;
         return !(pieceInfo.getLastX() == xKing && pieceInfo.getLastY() == yKing) && (yKing + k == pieceInfo.getLastY() || yKing - k == pieceInfo.getLastY());

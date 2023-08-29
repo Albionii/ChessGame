@@ -1,8 +1,10 @@
+import javax.swing.*;
+
 public abstract class Piece {
     public PieceInfo pieceInfo;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
-
+    CheckMateDetector checkMateDetector;
 
     public Piece(PieceInfo pieceInfo) {
         this.pieceInfo = pieceInfo;
@@ -30,6 +32,9 @@ public abstract class Piece {
         pieceInteraction.findPieceInfoInArray(p).isPieceDead = true;
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
+        if (pieceInteraction.pieceThatAttacked != null && p == pieceInteraction.pieceThatAttacked.pieceInfo){
+            pieceInteraction.kingGotChecked = false;
+        }
     }
 
     /**
@@ -64,15 +69,31 @@ public abstract class Piece {
     public void updatePosition(){
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
+        System.out.println("pieceInteraction.kingGotChecked : " + pieceInteraction.kingGotChecked);
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
+        if (doesMoveLeaveKingInCheck()){
+            restartMove(tempX, tempY);
+            return;
+        }
         if (kingChecked() && !pieceInteraction.kingGotChecked){ //? Ne qofte se nje figure sulmon mbretin e kthen nje variabel true
             pieceInteraction.kingGotChecked = true;
             pieceInteraction.pieceThatAttacked = this;
+            checkMateDetector = new CheckMateDetector(pieceInteraction);
+            checkMateDetector.print();
+            if (!checkMateDetector.isItCheckMate_Mate()) {
+                System.out.println("It is checkmate!!!");
+                JOptionPane.showMessageDialog(null, "Loja perfundoi. Shah Mat!!!");
+                return;
+            }
         }
-        if (pieceInteraction.pieceThatAttacked != this && ifMovePreventsCheck() && (!this.pieceInfo.getName().equals("K"))) { //? Nese figura nuk e ndal sulmin, le te kthehet ne poziten fillestare.
+
+        if (pieceInteraction.pieceThatAttacked != this && ifMoveDoesNotPreventCheck() && (!this.pieceInfo.getName().equals("K"))) { //? Nese figura nuk e ndal sulmin, le te kthehet ne poziten fillestare.
             restartMove(tempX, tempY);
             return;
+        }
+        if (!ifMoveDoesNotPreventCheck()){
+            pieceInteraction.kingGotChecked = false;
         }
         pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
     }
@@ -129,8 +150,22 @@ public abstract class Piece {
      * @return true nese figura qe levize e ndal sulmin e kundershtarit.
      * false nese figura nuk e ndal sulmin e kundershtarit.
      */
-    public boolean ifMovePreventsCheck(){
+    public boolean ifMoveDoesNotPreventCheck(){
         return pieceInteraction.kingGotChecked && pieceInteraction.pieceThatAttacked.kingChecked();
+    }
+
+
+    public boolean doesMoveLeaveKingInCheck(){
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 8; j++) {
+                if ((pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
+                    if (PieceInteraction.pieces[i][j].kingChecked()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public void setXandY(int xPos, int yPos) {
@@ -162,6 +197,7 @@ public abstract class Piece {
      * false nese levizja nuk gjendet ne "scope".
      */
     public abstract boolean isMoveInPieceScope();
+    public abstract boolean isMoveInPieceScope(int x, int y);
 
 
 }

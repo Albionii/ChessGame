@@ -57,7 +57,7 @@ public class King extends Piece {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
-                    Piece piece = PieceFactory.createPiece(pieceInteraction.pieceInfos[i][j]);
+                    Piece piece = PieceInteraction.pieces[i][j];
                     piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
                     tempYKing = pieceInfo.getLastY();
                     tempXKing = pieceInfo.getLastX();
@@ -80,7 +80,6 @@ public class King extends Piece {
                 }
             }
         }
-//        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
         return false;
     }
 
@@ -89,7 +88,7 @@ public class King extends Piece {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
-                    Piece piece = PieceFactory.createPiece(pieceInteraction.pieceInfos[i][j]);
+                    Piece piece = PieceInteraction.pieces[i][j];
                     piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
                     tempXKing = pieceInfo.getLastX();
                     pieceInfo.setPiecePosition((pieceInfo.getLastX()+one), pieceInfo.getLastY());
@@ -107,7 +106,6 @@ public class King extends Piece {
                 }
             }
         }
-//        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
         return false;
     }
 
@@ -127,7 +125,4 @@ public class King extends Piece {
         }
         return false;
     }
-
-
-
 }

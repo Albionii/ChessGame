@@ -110,23 +110,74 @@ public class Pawn extends Piece{
         }
     }
 
-    public boolean enPassantMove(){
-        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()-1, pieceInfo.getLastY())){
-            if (pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).isEnPassant()
-                    && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY()).getColor() != pieceInfo.getColor()){
-                enPassantKilled = pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()-1, pieceInfo.getLastY());
-                return true;
+    @Override
+    public boolean isMoveInPieceScope(int x, int y) {
+        int howManySquareMoved = Math.abs(pieceInfo.getLastY() - y);
+        if (pieceInfo.getColor() == 'W'){
+            if (pieceInteraction.pieceMoved2Times && pieceInfo.getLastY() == pieceInteraction.pieceThatMoved2Times.getLastY()){
+                if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == -1 && x == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - y == 1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+                else if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == 1 && x == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - y == 1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }else if (Math.abs(pieceInfo.getLastX() - x) == 0 && (pieceInfo.getLastY() - y == 1)){
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+            }
+
+            if (howManySquareMoved == 2){
+                pieceInteraction.pieceMoved2Times = true;
+                pieceInteraction.pieceThatMoved2Times = pieceInfo;
+            }
+
+            if (pieceInteraction.isThereAPiece(x, y)){
+                return Math.abs(pieceInfo.getLastX() - x) <= 1 && pieceInfo.getLastY() - y == 1;
+            }
+            else{
+                return Math.abs(pieceInfo.getLastX() - x) == 0 &&
+                        (pieceInfo.getLastY() == 6
+                                ? (pieceInfo.getLastY() - y <=2 && pieceInfo.getLastY() - y >=0)
+                                : (pieceInfo.getLastY() - y <= 1 && pieceInfo.getLastY() - y >= 0));
             }
         }
-        if (pieceInteraction.isThereAPiece(pieceInfo.getLastX()+1, pieceInfo.getLastY())){
-            if (pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY()).isEnPassant()
-                    && pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY()).getColor() != pieceInfo.getColor()){
-                enPassantKilled = pieceInteraction.findPieceInThatPosition(pieceInfo.getLastX()+1, pieceInfo.getLastY());
-                return true;
+        else {
+            if (pieceInteraction.pieceMoved2Times && pieceInfo.getLastY() == pieceInteraction.pieceThatMoved2Times.getLastY()){
+                if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == -1 && x == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - y == -1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
+                else if (pieceInfo.getLastX() - pieceInteraction.pieceThatMoved2Times.getLastX() == 1 && x == pieceInteraction.pieceThatMoved2Times.getLastX() && pieceInfo.getLastY() - y == -1){
+                    pieceKilled(pieceInteraction.pieceThatMoved2Times);
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }else if (Math.abs(pieceInfo.getLastX() - x) == 0 && (pieceInfo.getLastY() - y == -1)){
+                    pieceInteraction.pieceMoved2Times = false;
+                    return true;
+                }
             }
+            if (howManySquareMoved == 2){
+                pieceInteraction.pieceMoved2Times = true;
+                pieceInteraction.pieceThatMoved2Times = pieceInfo;
+            }
+            if (pieceInteraction.isThereAPiece(x, y)){
+                return Math.abs(pieceInfo.getLastX() - x) <= 1 && pieceInfo.getLastY() - y == -1;
+            }
+            else{
+                return Math.abs(pieceInfo.getLastX() - x) == 0 &&
+                        (pieceInfo.getLastY() == 1
+                                ? (pieceInfo.getLastY() - y >=-2 && pieceInfo.getLastY() - y <=0)
+                                : (pieceInfo.getLastY() - y <= 0 && pieceInfo.getLastY() - y >= -1)); //*Ky kod eshte me i zgjatur ne menyre qe piunat te mos kthehen pas
+            }
+
         }
-        return false;
     }
+
 
 
     public boolean isKingInPieceScope(int xKing, int yKing){

@@ -20,11 +20,7 @@ public class MovePieces implements MouseListener, MouseMotionListener {
         this.pieceInteraction = pi;
         Piece.pieceInteraction = pieceInteraction;
         addListenerToLabels();
-        setPieceArrauy();
-    }
-
-    public PieceInteraction getPieceInteraction() {
-        return pieceInteraction;
+        setPieceArray();
     }
 
     public void addListenerToLabels() {
@@ -72,21 +68,19 @@ public class MovePieces implements MouseListener, MouseMotionListener {
         }
     }
 
-    public void setPieceArrauy(){
+    public void setPieceArray(){
         pieces = new Piece[4][8];
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 8; j++){
                 pieces[i][j] = PieceFactory.createPiece(pieceInfos[i][j]);
             }
         }
+        PieceInteraction.pieces = pieces;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getSource() == pieceInfos[u][v].getPieceLabel()){
-//            Piece piece = PieceFactory.createPiece(pieceInfos[u][v]);
-//            piece.move(xPosition, yPosition);
-//            piece = null;
             pieces[u][v].move(xPosition, yPosition);
         }
     }

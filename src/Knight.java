@@ -20,6 +20,14 @@ public class Knight extends Piece{
         int yDifference = Math.abs(pieceInfo.getLastY() - yPos);
         return xDifference + yDifference == 3 && xDifference != 0 && yDifference!= 0;
     }
+
+    @Override
+    public boolean isMoveInPieceScope(int x, int y) {
+        int xDifference = Math.abs(pieceInfo.getLastX() - x);
+        int yDifference = Math.abs(pieceInfo.getLastY() - y);
+        return xDifference + yDifference == 3 && xDifference != 0 && yDifference!= 0;
+    }
+
     public boolean isKingInPieceScope(int xKing, int yKing) {
         int xDifference = Math.abs(pieceInfo.getLastX() - xKing);
         int yDifference = Math.abs(pieceInfo.getLastY() - yKing);

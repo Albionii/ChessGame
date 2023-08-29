@@ -48,6 +48,11 @@ public class Rook extends Piece{
         return pieceInfo.getLastX() == xPos || pieceInfo.getLastY() == yPos;
     }
 
+    @Override
+    public boolean isMoveInPieceScope(int x, int y) {
+        return pieceInfo.getLastX() == x || pieceInfo.getLastY() == y;
+    }
+
     public boolean isKingInPieceScope(int xKing, int yKing) {
         return !(pieceInfo.getLastX() == xKing && pieceInfo.getLastY() == yKing)&&(pieceInfo.getLastX() == xKing || pieceInfo.getLastY() == yKing);
     }
