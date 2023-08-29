@@ -1,5 +1,4 @@
 public class King extends Piece {
-    CheckMateDetector checkMateDetector = new CheckMateDetector(pieceInteraction, this);
     public boolean canNotCastle = false;
     public King(PieceInfo pieceInfo) {
         super(pieceInfo);
@@ -27,10 +26,14 @@ public class King extends Piece {
             pieceInteraction.findPieceInThatPosition((xPos == 6)?7:0, yPos).getPieceLabel().setLocation((xPos == 6)?500:300 , yPos*100);
             pieceInteraction.findPieceInThatPosition((xPos == 6)?7:0, yPos).setPiecePosition((xPos == 6)?5:3, yPos);
             canNotCastle = false;
-//            pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
             return true;
         }
         return condition1 && !kingStareDown();
+    }
+
+    @Override
+    public boolean isMoveInPieceScope(int x, int y) {
+        return false;
     }
 
     public boolean kingStareDown() {
@@ -77,7 +80,7 @@ public class King extends Piece {
                 }
             }
         }
-        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
+//        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
         return false;
     }
 
@@ -90,9 +93,11 @@ public class King extends Piece {
                     piece.setXandY(pieceInteraction.pieceInfos[i][j].getLastX(), pieceInteraction.pieceInfos[i][j].getLastY());
                     tempXKing = pieceInfo.getLastX();
                     pieceInfo.setPiecePosition((pieceInfo.getLastX()+one), pieceInfo.getLastY());
-                    pieceInfo.getPieceLabel().setLocation((pieceInfo.getLastX()+one)*100, yPos*100);
+                    pieceInfo.getPieceLabel().setLocation((pieceInfo.getLastX()+one)*100, pieceInfo.getLastY()*100);
                     if (piece.kingChecked()){
+                        pieceInfo.setPiecePosition(tempXKing, pieceInfo.getLastY());
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, (pieceInfo.getLastY())*100);
+                        canNotCastle = true;
                         return true;
                     }
                     else {
