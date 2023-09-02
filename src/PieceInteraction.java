@@ -10,6 +10,7 @@ public class PieceInteraction {
     public boolean pieceMoved2Times;
     public PieceInfo pieceThatMoved2Times;
     public static Piece [][] pieces;
+    public boolean kingFreeToMoveBool;
 
 
 
@@ -21,9 +22,6 @@ public class PieceInteraction {
 
     public PieceInfo[][] getPieceInfos() {
         return pieceInfos;
-    }
-    public void setPieceInfos(PieceInfo[][] pieceInfos) {
-        this.pieceInfos = pieceInfos;
     }
 
     public boolean isThereAPiece(int x, int y) {
@@ -53,6 +51,17 @@ public class PieceInteraction {
             for (int j = 0; j < 8; j++) {
                 if(pieceInfos[i][j].equals(p)){
                     return pieceInfos[i][j];
+                }
+            }
+        }
+        return null;
+    }
+
+    public Piece returnPieceWithPieceInfo(PieceInfo p){
+        for (Piece [] p1 : pieces){
+            for (Piece p2 : p1){
+                if (p2.pieceInfo.equals(p)){
+                    return p2;
                 }
             }
         }

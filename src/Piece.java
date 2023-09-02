@@ -6,6 +6,8 @@ public abstract class Piece {
     public int xPos, yPos;
     CheckMateDetector checkMateDetector;
 
+    public boolean didPieceMove;
+
     public Piece(PieceInfo pieceInfo) {
         this.pieceInfo = pieceInfo;
     }
@@ -17,10 +19,12 @@ public abstract class Piece {
     public void restartPreviousMove(){
         pieceInfo.setPiecePosition(pieceInfo.getLastX(), pieceInfo.getLastY());
         pieceInfo.getPieceLabel().setLocation(pieceInfo.getLastX()*100, pieceInfo.getLastY()*100);
+        didPieceMove = false;
     }
     public void restartMove(int x, int y) {
         pieceInfo.setPiecePosition(x, y);
         pieceInfo.getPieceLabel().setLocation(x*100, y*100);
+        didPieceMove = false;
     }
 
 
@@ -32,6 +36,7 @@ public abstract class Piece {
         pieceInteraction.findPieceInfoInArray(p).isPieceDead = true;
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
+        didPieceMove = true;
         if (pieceInteraction.pieceThatAttacked != null && p == pieceInteraction.pieceThatAttacked.pieceInfo){
             pieceInteraction.kingGotChecked = false;
         }
@@ -67,6 +72,7 @@ public abstract class Piece {
      * Ne poziten nga parametrat e metodes move(), kjo e mundeson levizjen e figures kur plotesohet kushti nese levizja eshte e lejuar.
      */
     public void updatePosition(){
+        didPieceMove = true;
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
         System.out.println("pieceInteraction.kingGotChecked : " + pieceInteraction.kingGotChecked);
@@ -79,11 +85,12 @@ public abstract class Piece {
         if (kingChecked() && !pieceInteraction.kingGotChecked){ //? Ne qofte se nje figure sulmon mbretin e kthen nje variabel true
             pieceInteraction.kingGotChecked = true;
             pieceInteraction.pieceThatAttacked = this;
+
             checkMateDetector = new CheckMateDetector(pieceInteraction);
             checkMateDetector.print();
             if (!checkMateDetector.isItCheckMate_Mate()) {
                 System.out.println("It is checkmate!!!");
-                JOptionPane.showMessageDialog(null, "Loja perfundoi. Shah Mat!!!");
+                JOptionPane.showMessageDialog(null, "Loja perfundoi, Shah Mat!!!", "Game Over", JOptionPane.PLAIN_MESSAGE);
                 return;
             }
         }
@@ -171,6 +178,30 @@ public abstract class Piece {
     public void setXandY(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
+    }
+//
+//    public boolean isKingFreeToMove(){
+//        int saveXPos = xPos;
+//        int saveYPos = yPos;
+//        for (int j = -1; j <= 1; j++) {
+//            yPos += j;
+//            for (int i = -1; i <= 1; i++){
+//                xPos += i;
+//                if (isLegalMove()){
+//                    if (pieceInteraction.isThereAPiece(xPos, yPos)){
+//                        if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        xPos = saveXPos;
+//        yPos = saveYPos;
+//        return false;
+//    }
+    public boolean isKingFreeToMove(){
+        return false;
     }
 
 

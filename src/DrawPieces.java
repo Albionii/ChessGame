@@ -14,7 +14,7 @@ public class DrawPieces {
         this.boardLabel = boardLabel;
         draw();
         PieceInteraction pI = new PieceInteraction(pieceInfos, pieceLabels);
-        MovePieces movePieces = new MovePieces(pieceInfos, boardLabel, pI);
+        new MovePieces(pieceInfos, boardLabel, pI);
     }
 
     public void draw() {
