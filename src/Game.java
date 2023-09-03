@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game {
-    public static void main(String[] args) {
+    public Game(){
         JFrame frame = new JFrame("Loja");
         GameOver.frame = frame;
         Promote.gameFrame = frame;
@@ -12,7 +12,6 @@ public class Game {
         new DrawBoard(frame);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
 
     }
 }
