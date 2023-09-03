@@ -14,7 +14,7 @@ public class DrawBoard {
     public DrawBoard(JFrame frame) {
         this.frame = frame;
         drawBoard();
-        DrawPieces drawPieces = new DrawPieces(boardLabel);
+        new DrawPieces(boardLabel);
     }
 
     public void drawBoard() {

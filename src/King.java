@@ -50,13 +50,6 @@ public class King extends Piece {
         }
         return false;
     }
-    public boolean demoLegalMove() {
-        if (!isSquareUnderAttack() && isMoveInPieceScope()){
-            canNotCastle = true;
-            return true;
-        }
-        return false;
-    }
 
     public boolean isSquareUnderAttack() {
         int tempXKing = 0;
@@ -71,10 +64,6 @@ public class King extends Piece {
                     pieceInfo.setPiecePosition(xPos, yPos);
                     pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
                     if (piece.kingChecked()){
-                        System.out.println("tempXKing : " + tempXKing);
-                        System.out.println("tempYKing : " + tempYKing);
-                        System.out.println("Figura qe sulmon : " + pieceInteraction.pieceInfos[i][j].getName());
-                        System.out.println("Ngjyra e fig : " + pieceInteraction.pieceInfos[i][j].getColor());
                         pieceInfo.setPiecePosition(tempXKing, tempYKing);
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
                         canNotCastle = true;
@@ -144,15 +133,12 @@ public class King extends Piece {
         for (int j = -1; j <= 1; j++) {
             for (int i = -1; i <= 1; i++){
                 if ((saveXPos+i) >= 0 && (saveXPos+i) <= 7 && (saveYPos+j) >= 0 && (saveYPos+j) <= 7) {
-                    System.out.println("saveXPos : " + (saveXPos+i));
-                    System.out.println("saveYPos : " + (saveYPos+j));
                     pieceInteraction.whiteOrBlackTurn = pieceInteraction.whiteOrBlackTurn == 'W' ? 'B' : 'W';
                     xPos = saveXPos+i;
                     yPos = saveYPos+j;
                     if (isLegalMove()) {
                         if (pieceInteraction.isThereAPiece(xPos, yPos)) {
                             if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()) {
-//                                pieceTakes();
                                 xPos = tempX;
                                 yPos = tempY;
                                 return true;

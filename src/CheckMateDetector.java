@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class CheckMateDetector {
     PieceInteraction pieceInteraction;
     PieceInfo king;
@@ -43,18 +41,16 @@ public class CheckMateDetector {
         array = new int[distance][2];
         int countI = 0;
 
-        //? To include the attacked piece pos
+        //* To include the attacked piece pos also
         int tempMinY = pieceInteraction.pieceThatAttacked.pieceInfo.getLastY() == minY ? minY : minY + 1;
         int tempMaxY = pieceInteraction.pieceThatAttacked.pieceInfo.getLastY() == maxY ? maxY+1: maxY;
         int tempMinX = pieceInteraction.pieceThatAttacked.pieceInfo.getLastX() == minX ? minX : minX + 1;
         int tempMaxX = pieceInteraction.pieceThatAttacked.pieceInfo.getLastX() == maxX ? maxX+1 : maxX;
 
-        System.out.println("distance : " + distance);
         if (minY - maxY != 0) {
             for (int i = tempMinY; i < tempMaxY; i++) {
                 if (minX - maxX == 0){
                     if (pieceInteraction.pieceThatAttacked.isMoveInPieceScope(king.getLastX(), i)){
-                        System.out.println("test");
                         array[countI][0] = king.getLastX();
                         array[countI][1] = i;
                     }
@@ -78,13 +74,7 @@ public class CheckMateDetector {
                 countI++;
             }
         }
-
-
         return array;
     }
 
-    public void print(){
-        System.out.println(Arrays.deepToString(posOfAttackedSquares()));
-//        System.out.println("Is king free ? : " + pieceInteraction.returnPieceWithPieceInfo(king).isKingFreeToMove());
-    }
 }

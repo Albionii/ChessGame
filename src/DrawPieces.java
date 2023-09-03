@@ -15,6 +15,7 @@ public class DrawPieces {
         draw();
         PieceInteraction pI = new PieceInteraction(pieceInfos, pieceLabels);
         new MovePieces(pieceInfos, boardLabel, pI);
+
     }
 
     public void draw() {
@@ -79,7 +80,7 @@ public class DrawPieces {
                  }
             }
             nameThePieces();
-
+            promotionPieces();
 
         }catch (IOException e) {
             e.printStackTrace();
@@ -112,4 +113,19 @@ public class DrawPieces {
         pieceInfos[2][7].addPieceInicial("R");
     }
 
+    public void promotionPieces(){
+        BufferedImage [][] promotePieces = new BufferedImage[4][2];
+
+        promotePieces[0][0] = pieceImages[2][3];
+        promotePieces[1][0] = pieceImages[2][0];
+        promotePieces[2][0] = pieceImages[2][1];
+        promotePieces[3][0] = pieceImages[2][2];
+
+        promotePieces[0][1] = pieceImages[0][3];
+        promotePieces[1][1] = pieceImages[0][0];
+        promotePieces[2][1] = pieceImages[0][1];
+        promotePieces[3][1] = pieceImages[0][2];
+        Promote.pieceImages = promotePieces;
+        Promote.labels = pieceLabels;
+    }
 }

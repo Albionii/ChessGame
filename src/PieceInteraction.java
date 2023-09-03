@@ -10,7 +10,6 @@ public class PieceInteraction {
     public boolean pieceMoved2Times;
     public PieceInfo pieceThatMoved2Times;
     public static Piece [][] pieces;
-    public boolean kingFreeToMoveBool;
 
 
 

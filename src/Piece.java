@@ -75,7 +75,7 @@ public abstract class Piece {
         didPieceMove = true;
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
-        System.out.println("pieceInteraction.kingGotChecked : " + pieceInteraction.kingGotChecked);
+//        System.out.println("pieceInteraction.kingGotChecked : " + pieceInteraction.kingGotChecked);
         pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
         pieceInfo.setPiecePosition(xPos, yPos);
         if (doesMoveLeaveKingInCheck()){
@@ -87,10 +87,9 @@ public abstract class Piece {
             pieceInteraction.pieceThatAttacked = this;
 
             checkMateDetector = new CheckMateDetector(pieceInteraction);
-            checkMateDetector.print();
             if (!checkMateDetector.isItCheckMate_Mate()) {
-                System.out.println("It is checkmate!!!");
                 JOptionPane.showMessageDialog(null, "Loja perfundoi, Shah Mat!!!", "Game Over", JOptionPane.PLAIN_MESSAGE);
+                GameOver.gameOver();
                 return;
             }
         }
@@ -102,7 +101,16 @@ public abstract class Piece {
         if (!ifMoveDoesNotPreventCheck()){
             pieceInteraction.kingGotChecked = false;
         }
+        promoteThyPawn();
         pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
+    }
+
+    public void promoteThyPawn(){
+        if (pieceInfo.getName().equals("P")){
+            if ((pieceInfo.getLastY() == 0 && pieceInfo.getColor() == 'W') || (pieceInfo.getLastY() == 7 && pieceInfo.getColor() == 'B')){
+                new Promote(pieceInfo, pieceInteraction).runBaby();
+            }
+        }
     }
 
     /**
@@ -179,27 +187,7 @@ public abstract class Piece {
         this.xPos = xPos;
         this.yPos = yPos;
     }
-//
-//    public boolean isKingFreeToMove(){
-//        int saveXPos = xPos;
-//        int saveYPos = yPos;
-//        for (int j = -1; j <= 1; j++) {
-//            yPos += j;
-//            for (int i = -1; i <= 1; i++){
-//                xPos += i;
-//                if (isLegalMove()){
-//                    if (pieceInteraction.isThereAPiece(xPos, yPos)){
-//                        if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        xPos = saveXPos;
-//        yPos = saveYPos;
-//        return false;
-//    }
+
     public boolean isKingFreeToMove(){
         return false;
     }
