@@ -73,6 +73,7 @@ public class MovePieces implements MouseListener, MouseMotionListener {
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 8; j++){
                 pieces[i][j] = PieceFactory.createPiece(pieceInfos[i][j]);
+                pieceInfos[i][j].saveIandJ(i ,j);
             }
         }
         PieceInteraction.pieces = pieces;

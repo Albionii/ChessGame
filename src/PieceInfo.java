@@ -5,6 +5,7 @@ public class PieceInfo {
     private JLabel pieceLabel;
     private String name;
     private int xPosition, yPosition;
+    public int i, j;
     public boolean isPieceDead;
 
 
@@ -57,6 +58,11 @@ public class PieceInfo {
             }
         }
         return false;
+    }
+
+    public void saveIandJ(int i, int j){
+        this.i = i;
+        this.j = j;
     }
 
 }

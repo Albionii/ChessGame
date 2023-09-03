@@ -71,10 +71,30 @@ public class Promote implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button1){
-            PieceInteraction.pieces[3][4] = new Queen(pawn);
+            PieceInteraction.pieces[pawn.i][pawn.j] = new Queen(pawn);
             pawn.addPieceInicial("Q");
             pawn.getPieceLabel().setIcon(new ImageIcon(image1));
             frame.dispose();
         }
+        if (e.getSource() == button2){
+            PieceInteraction.pieces[pawn.i][pawn.j] = new Rook(pawn);
+            pawn.addPieceInicial("R");
+            pawn.getPieceLabel().setIcon(new ImageIcon(image2));
+            frame.dispose();
+        }
+        if (e.getSource() == button3){
+            PieceInteraction.pieces[pawn.i][pawn.j] = new Knight(pawn);
+            pawn.addPieceInicial("N");
+            pawn.getPieceLabel().setIcon(new ImageIcon(image3));
+            frame.dispose();
+        }
+        if (e.getSource() == button4){
+            PieceInteraction.pieces[pawn.i][pawn.j] = new Bishop(pawn);
+            pawn.addPieceInicial("B");
+            pawn.getPieceLabel().setIcon(new ImageIcon(image4));
+            frame.dispose();
+        }
+
+
     }
 }
