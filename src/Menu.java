@@ -16,6 +16,7 @@ public class Menu implements ActionListener {
         startButton.setFocusable(false);
         startButton.addActionListener(this);
         startmMenu.add(startButton);
+        startmMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startmMenu.setVisible(true);
     }
 

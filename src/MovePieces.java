@@ -1,16 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
-public class MovePieces implements MouseListener, MouseMotionListener {
+public class MovePieces implements MouseListener, MouseMotionListener, KeyListener {
     private PieceInfo[][] pieceInfos;
     private JLabel boardLabel;
     private int u=0, v=0;
     private int xPosition=0, yPosition=0;
+    private int previousXPosition = 0, previousYPosition = 0;
     private PieceInteraction pieceInteraction;
     private Piece [][] pieces;
+    public ReturnMoves returnMoves = new ReturnMoves();
+    public static JFrame frame;
 
     Point mouse;
 
@@ -20,7 +21,12 @@ public class MovePieces implements MouseListener, MouseMotionListener {
         this.pieceInteraction = pi;
         Piece.pieceInteraction = pieceInteraction;
         addListenerToLabels();
+        addKeyListener();
         setPieceArray();
+    }
+
+    public void addKeyListener(){
+        frame.addKeyListener(this);
     }
 
     public void addListenerToLabels() {
@@ -82,7 +88,12 @@ public class MovePieces implements MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getSource() == pieceInfos[u][v].getPieceLabel()){
+            previousXPosition = pieceInfos[u][v].getLastX();
+            previousYPosition = pieceInfos[u][v].getLastY();
             pieces[u][v].move(xPosition, yPosition);
+            if (pieces[u][v].didPieceMove){
+                returnMoves.saveMove(pieceInfos[u][v], previousXPosition, previousYPosition);
+            }
         }
     }
 
@@ -99,6 +110,27 @@ public class MovePieces implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            //*Code for previous moves
+            returnMoves.changePosition(-1);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+            //*Code for previous moves
+            returnMoves.changePosition(1);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

@@ -76,12 +76,13 @@ public abstract class Piece {
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
 //        System.out.println("pieceInteraction.kingGotChecked : " + pieceInteraction.kingGotChecked);
-        pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
-        pieceInfo.setPiecePosition(xPos, yPos);
-        if (doesMoveLeaveKingInCheck()){
+        if (doesMoveLeaveKingInCheck(xPos, yPos)){
             restartMove(tempX, tempY);
             return;
         }
+        pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
+        pieceInfo.setPiecePosition(xPos, yPos);
+
         if (kingChecked() && !pieceInteraction.kingGotChecked){ //? Ne qofte se nje figure sulmon mbretin e kthen nje variabel true
             pieceInteraction.kingGotChecked = true;
             pieceInteraction.pieceThatAttacked = this;
@@ -170,16 +171,21 @@ public abstract class Piece {
     }
 
 
-    public boolean doesMoveLeaveKingInCheck(){
+    public boolean doesMoveLeaveKingInCheck(int x, int y){
+        int tempX = pieceInfo.getLastX();
+        int tempY = pieceInfo.getLastY();
+        pieceInfo.setPiecePosition(x, y);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
                     if (PieceInteraction.pieces[i][j].kingChecked()){
+                        pieceInfo.setPiecePosition(tempX, tempY);
                         return true;
                     }
                 }
             }
         }
+        pieceInfo.setPiecePosition(tempX, tempY);
         return false;
     }
 
