@@ -40,6 +40,8 @@ public abstract class Piece {
         if (pieceInteraction.pieceThatAttacked != null && p == pieceInteraction.pieceThatAttacked.pieceInfo){
             pieceInteraction.kingGotChecked = false;
         }
+        pieceInfo.didThisMovePieceTake = true;
+        pieceInfo.lastPieceKilled = p;
     }
 
     /**

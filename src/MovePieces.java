@@ -20,6 +20,7 @@ public class MovePieces implements MouseListener, MouseMotionListener, KeyListen
         this.boardLabel = boardLabel;
         this.pieceInteraction = pi;
         Piece.pieceInteraction = pieceInteraction;
+        ReturnMoves.pieceInteraction = pieceInteraction;
         addListenerToLabels();
         addKeyListener();
         setPieceArray();
@@ -92,7 +93,10 @@ public class MovePieces implements MouseListener, MouseMotionListener, KeyListen
             previousYPosition = pieceInfos[u][v].getLastY();
             pieces[u][v].move(xPosition, yPosition);
             if (pieces[u][v].didPieceMove){
-                returnMoves.saveMove(pieceInfos[u][v], previousXPosition, previousYPosition);
+                returnMoves.saveMove(pieceInfos[u][v] , previousXPosition, previousYPosition, xPosition, yPosition);
+                if(pieceInfos[u][v].didThisMovePieceTake){
+                    returnMoves.saveMove(pieceInfos[u][v].lastPieceKilled, xPosition, yPosition, 9, 1);
+                }
             }
         }
     }
@@ -121,12 +125,18 @@ public class MovePieces implements MouseListener, MouseMotionListener, KeyListen
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT){
             //*Code for previous moves
-            returnMoves.changePosition(-1);
+            returnMoves.moveLeft();
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
             //*Code for previous moves
-            returnMoves.changePosition(1);
+            returnMoves.moveRight();
         }
+        if (e.getKeyCode() == KeyEvent.VK_UP){
+            //*Code for previous moves
+            returnMoves.printAllMoves();
+        }
+
+
     }
 
     @Override

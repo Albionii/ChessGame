@@ -7,6 +7,8 @@ public class PieceInfo {
     private int xPosition, yPosition;
     public int i, j;
     public boolean isPieceDead;
+    public boolean didThisMovePieceTake;
+    public PieceInfo lastPieceKilled;
 
 
     public PieceInfo setColor(char color){
