@@ -33,6 +33,12 @@ public abstract class Piece {
      * @param p figura qe do te "vritet".
      */
     public void pieceKilled(PieceInfo p) {
+        int tempX = pieceInfo.getLastX();
+        int tempY = pieceInfo.getLastY();
+        if (doesMoveLeaveKingInCheck(xPos, yPos)){
+            restartMove(tempX, tempY);
+            return;
+        }
         pieceInteraction.findPieceInfoInArray(p).isPieceDead = true;
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
@@ -92,7 +98,7 @@ public abstract class Piece {
             checkMateDetector = new CheckMateDetector(pieceInteraction);
             if (!checkMateDetector.isItCheckMate_Mate()) {
                 JOptionPane.showMessageDialog(null, "Loja perfundoi, Shah Mat!!!", "Game Over", JOptionPane.PLAIN_MESSAGE);
-                GameOver.gameOver();
+//                GameOver.gameOver();
                 return;
             }
         }
