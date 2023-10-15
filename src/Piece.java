@@ -1,12 +1,13 @@
 import javax.swing.*;
+import java.io.Serializable;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
     public PieceInfo pieceInfo;
     public static PieceInteraction pieceInteraction;
     public int xPos, yPos;
     CheckMateDetector checkMateDetector;
 
-    public boolean didPieceMove;
+    public static boolean didPieceMove;
 
     public Piece(PieceInfo pieceInfo) {
         this.pieceInfo = pieceInfo;
@@ -35,10 +36,8 @@ public abstract class Piece {
     public void pieceKilled(PieceInfo p) {
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
-        if (doesMoveLeaveKingInCheck(xPos, yPos)){
-            restartMove(tempX, tempY);
-            return;
-        }
+        int x = p.getLastX();
+        int y = p.getLastY();
         pieceInteraction.findPieceInfoInArray(p).isPieceDead = true;
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
@@ -48,6 +47,16 @@ public abstract class Piece {
         }
         pieceInfo.didThisMovePieceTake = true;
         pieceInfo.lastPieceKilled = p;
+        if (doesMoveLeaveKingInCheck(xPos, yPos)){
+            restartMove(tempX, tempY);
+            pieceInteraction.findPieceInfoInArray(p).isPieceDead = false;
+            p.setPiecePosition(x, y);
+            p.getPieceLabel().setLocation(x*100, y*100);
+            didPieceMove = false;
+            if (!pieceInteraction.kingGotChecked){
+                pieceInteraction.kingGotChecked = true;
+            }
+        }
     }
 
     /**
@@ -83,7 +92,6 @@ public abstract class Piece {
         didPieceMove = true;
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
-//        System.out.println("pieceInteraction.kingGotChecked : " + pieceInteraction.kingGotChecked);
         if (doesMoveLeaveKingInCheck(xPos, yPos)){
             restartMove(tempX, tempY);
             return;
@@ -98,7 +106,7 @@ public abstract class Piece {
             checkMateDetector = new CheckMateDetector(pieceInteraction);
             if (!checkMateDetector.isItCheckMate_Mate()) {
                 JOptionPane.showMessageDialog(null, "Loja perfundoi, Shah Mat!!!", "Game Over", JOptionPane.PLAIN_MESSAGE);
-//                GameOver.gameOver();
+                GameOver.gameOver();
                 return;
             }
         }

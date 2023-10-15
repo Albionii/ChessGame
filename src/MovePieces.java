@@ -92,8 +92,12 @@ public class MovePieces implements MouseListener, MouseMotionListener, KeyListen
             previousXPosition = pieceInfos[u][v].getLastX();
             previousYPosition = pieceInfos[u][v].getLastY();
             pieces[u][v].move(xPosition, yPosition);
-            if (pieces[u][v].didPieceMove){
+            if (Piece.didPieceMove){
                 returnMoves.saveMove(pieceInfos[u][v] , previousXPosition, previousYPosition, xPosition, yPosition);
+                PieceInteraction.lastPieceMoved = pieces[u][v];
+                PieceInteraction.lastU = u;
+                PieceInteraction.lastV = v;
+
                 if(pieceInfos[u][v].didThisMovePieceTake){
                     returnMoves.saveMove(pieceInfos[u][v].lastPieceKilled, xPosition, yPosition, 9, 1);
                 }

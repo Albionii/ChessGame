@@ -64,6 +64,10 @@ public class King extends Piece {
                     pieceInfo.setPiecePosition(xPos, yPos);
                     pieceInfo.getPieceLabel().setLocation(xPos*100, yPos*100);
                     if (piece.kingChecked()){
+//                        System.out.println("Name : " + piece.pieceInfo.getName());
+//                        System.out.println("Color : " + piece.pieceInfo.getColor());
+//                        System.out.println("X : " + piece.pieceInfo.getLastX());
+//                        System.out.println("Y : " + piece.pieceInfo.getLastY());
                         pieceInfo.setPiecePosition(tempXKing, tempYKing);
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, tempYKing*100);
                         canNotCastle = true;
@@ -91,6 +95,10 @@ public class King extends Piece {
                     pieceInfo.setPiecePosition((pieceInfo.getLastX()+one), pieceInfo.getLastY());
                     pieceInfo.getPieceLabel().setLocation((pieceInfo.getLastX()+one)*100, pieceInfo.getLastY()*100);
                     if (piece.kingChecked()){
+//                        System.out.println("Name : " + piece.pieceInfo.getName());
+//                        System.out.println("Color : " + piece.pieceInfo.getColor());
+//                        System.out.println("X : " + piece.pieceInfo.getLastX());
+//                        System.out.println("Y : " + piece.pieceInfo.getLastY());
                         pieceInfo.setPiecePosition(tempXKing, pieceInfo.getLastY());
                         pieceInfo.getPieceLabel().setLocation(tempXKing*100, (pieceInfo.getLastY())*100);
                         canNotCastle = true;

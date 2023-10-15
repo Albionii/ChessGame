@@ -1,6 +1,7 @@
 import javax.swing.*;
+import java.io.Serializable;
 
-public class PieceInfo {
+public class PieceInfo implements Serializable {
     private char pieceColor;
     private JLabel pieceLabel;
     private String name;

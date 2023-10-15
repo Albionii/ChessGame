@@ -1,8 +1,9 @@
 import javax.swing.*;
+import java.io.Serializable;
 
-public class PieceInteraction {
+public class PieceInteraction implements Serializable{
     public PieceInfo[][] pieceInfos;
-    public char whiteOrBlackTurn = 'W';
+    public static char whiteOrBlackTurn = 'W';
     public JLabel[][] pieceLabels;
     public boolean kingGotChecked;
 
@@ -10,6 +11,11 @@ public class PieceInteraction {
     public boolean pieceMoved2Times;
     public PieceInfo pieceThatMoved2Times;
     public static Piece [][] pieces;
+
+    public static Piece lastPieceMoved;
+
+    public static int lastU, lastV;
+
 
 
 

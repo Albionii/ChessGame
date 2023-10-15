@@ -39,6 +39,7 @@ public class DrawPieces {
             pieceImages[1][6] = ImageIO.read(getClass().getResource("/Pieces/Black/Chess_pdt45.svg.png"));
             pieceImages[1][7] = ImageIO.read(getClass().getResource("/Pieces/Black/Chess_pdt45.svg.png"));
 
+
             //White Pieces
 
             pieceImages[2][0] = ImageIO.read(getClass().getResource("/Pieces/White/Chess_rlt45.svg.png"));
@@ -81,6 +82,7 @@ public class DrawPieces {
             }
             nameThePieces();
             promotionPieces();
+            pieceImages = null;
 
         }catch (IOException e) {
             e.printStackTrace();

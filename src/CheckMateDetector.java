@@ -14,7 +14,6 @@ public class CheckMateDetector {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((pieceInteraction.pieceThatAttacked.pieceInfo.getColor() != pieceInteraction.pieceInfos[i][j].getColor()) && !pieceInteraction.pieceInfos[i][j].isPieceDead){
-
                     for (int [] setPos : array){
                         if((pieces[i][j].isMoveInPieceScope(setPos[0], setPos[1]) &&
                             !pieces[i][j].isAnyPieceOnTheWay(setPos[0], setPos[1]) &&

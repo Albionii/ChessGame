@@ -20,10 +20,10 @@ public class Menu implements ActionListener {
         startmMenu.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        Menu m = new Menu();
-        m.draw();
-    }
+//    public static void main(String[] args) {
+//        Menu m = new Menu();
+//        m.draw();
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
