@@ -10,7 +10,6 @@ public class Bishop extends Piece{
 
     @Override
     public boolean isAnyPieceOnTheWay(int x, int y) {
-        int min = 0, max = 0;
         int k = pieceInfo.getLastX() - x; // 5
         if (y > pieceInfo.getLastY()){
             for (int i = pieceInfo.getLastY()+1; i < y; i++) {

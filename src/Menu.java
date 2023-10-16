@@ -6,7 +6,12 @@ public class Menu implements ActionListener {
     public JFrame startmMenu;
     public JButton startButton;
 
-    public void draw(){
+    public char playerColor;
+
+
+    public Menu(char playerColor){
+        this.playerColor = playerColor;
+
         startmMenu = new JFrame("Start");
         startmMenu.setSize(300, 500);
         startmMenu.setLocationRelativeTo(null);
@@ -20,16 +25,12 @@ public class Menu implements ActionListener {
         startmMenu.setVisible(true);
     }
 
-//    public static void main(String[] args) {
-//        Menu m = new Menu();
-//        m.draw();
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
             startmMenu.dispose();
-            new Game();
+            new Game(playerColor);
         }
     }
 }

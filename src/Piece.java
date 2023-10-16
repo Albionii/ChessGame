@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.Serializable;
+import java.sql.SQLOutput;
 
 public abstract class Piece implements Serializable {
     public PieceInfo pieceInfo;
@@ -34,10 +35,12 @@ public abstract class Piece implements Serializable {
      * @param p figura qe do te "vritet".
      */
     public void pieceKilled(PieceInfo p) {
+        System.out.println("piece killed name : " + p.getName());
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
         int x = p.getLastX();
         int y = p.getLastY();
+        System.out.println("x, y : " + x + " , " + y);
         pieceInteraction.findPieceInfoInArray(p).isPieceDead = true;
         p.setPiecePosition(9, 1);
         p.getPieceLabel().setLocation(900, 100);
@@ -67,6 +70,7 @@ public abstract class Piece implements Serializable {
     public void move(int xPosition, int yPosition) {
         xPos = xPosition;
         yPos = yPosition;
+        System.out.println("isLegalMove() : " + isLegalMove());
         if (isLegalMove()){
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
                 if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
@@ -81,6 +85,15 @@ public abstract class Piece implements Serializable {
         }else {
             restartPreviousMove();
         }
+    }
+    public void moveForOpponent(int xPosition, int yPosition) {
+        xPos = xPosition;
+        yPos = yPosition;
+
+        if (pieceInteraction.isThereAPiece(xPos, yPos)){
+                pieceTakes();
+        }
+        updatePosition();
     }
 
 
@@ -119,7 +132,7 @@ public abstract class Piece implements Serializable {
             pieceInteraction.kingGotChecked = false;
         }
         promoteThyPawn();
-        pieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
+//        PieceInteraction.whiteOrBlackTurn = pieceInfo.getColor() == 'W' ? 'B' : 'W';
     }
 
     public void promoteThyPawn(){
@@ -135,10 +148,15 @@ public abstract class Piece implements Serializable {
      * @return true nese levizja eshte e mundun.
      * false nese levizja nuk eshte e mundun.
      */
-    public boolean isLegalMove() {return
+    public boolean isLegalMove() {
+        return
             isItYourTurn() &&
             !isAnyPieceOnTheWay(xPos, yPos) &&
             isMoveInPieceScope();
+    }
+
+    public boolean isLegalMoveForOpponent() {
+        return isMoveInPieceScope();
     }
 
     /**
@@ -147,7 +165,7 @@ public abstract class Piece implements Serializable {
      * false nese nuk eshte.
      */
     public boolean isItYourTurn() {
-        return pieceInfo.getColor() == pieceInteraction.whiteOrBlackTurn;
+        return pieceInfo.getColor() == PieceInteraction.whiteOrBlackTurn;
     }
 
     /**

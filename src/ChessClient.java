@@ -6,8 +6,10 @@ public class ChessClient {
     public Socket socket;
     public ObjectOutputStream outputStream;
     public ObjectInputStream inputStream;
+    public boolean alternatingBoolean;
 
-    public boolean broWhatNameToPutIt = false;
+    public Menu m;
+    public char playerColor;
 
     public ChessClient(String host, int port) {
         try {
@@ -15,8 +17,6 @@ public class ChessClient {
             System.out.println("Player has been added!");
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
-            Menu m = new Menu();
-            m.draw();
             move();
         }catch (Exception e) {
             e.printStackTrace();
@@ -25,30 +25,39 @@ public class ChessClient {
 
     public void move(){
         ChessInfo chessInfo = new ChessInfo();
+        try {
+            playerColor = (char)inputStream.readObject();
+            PieceInteraction.whiteOrBlackTurn = playerColor;
+            alternatingBoolean = playerColor != 'W';
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        m = new Menu(playerColor);
         while (socket.isConnected()){
             try {
-                if (broWhatNameToPutIt){
+                if (alternatingBoolean){
                     System.out.println("waiting... c1");
                     chessInfo = (ChessInfo) inputStream.readObject();
                     System.out.println("My turn now!");
-                    int xPos = chessInfo.piece.pieceInfo.getLastX();
-                    int yPos = chessInfo.piece.pieceInfo.getLastY();
+                    int xPos = chessInfo.x;
+                    int yPos = chessInfo.y;
                     int u = chessInfo.u;
                     int v = chessInfo.v;
-                    PieceInteraction.pieces[u][v].move(xPos, yPos);
+
+                    PieceInteraction.pieces[u][v].moveForOpponent(7-xPos, 7-yPos);
                     Piece.didPieceMove = false;
-                    broWhatNameToPutIt = false;
+                    alternatingBoolean = false;
                 }
 
 
                 if (Piece.didPieceMove && PieceInteraction.lastPieceMoved != null){
-                    System.out.println("Po bon ??");
-                    broWhatNameToPutIt = true;
+                    alternatingBoolean = true;
                     chessInfo.u = PieceInteraction.lastU;
                     chessInfo.v = PieceInteraction.lastV;
+                    chessInfo.x = PieceInteraction.pieces[chessInfo.u][chessInfo.v].xPos;
+                    chessInfo.y = PieceInteraction.pieces[chessInfo.u][chessInfo.v].yPos;
                     chessInfo.setPiece(PieceInteraction.lastPieceMoved);
                     outputStream.writeObject(chessInfo);
-//                    Piece.didPieceMove = false;
                     PieceInteraction.lastPieceMoved = null;
                 }
 

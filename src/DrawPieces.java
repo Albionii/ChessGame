@@ -10,7 +10,10 @@ public class DrawPieces {
     private JLabel [][] pieceLabels = new JLabel[4][8];
     private PieceInfo[][] pieceInfos = new PieceInfo[4][8];
 
-    public DrawPieces(JLabel boardLabel) {
+    public char playerColor;
+
+    public DrawPieces(JLabel boardLabel, char playerColor) {
+        this.playerColor = playerColor;
         this.boardLabel = boardLabel;
         draw();
         PieceInteraction pI = new PieceInteraction(pieceInfos, pieceLabels);
@@ -61,23 +64,46 @@ public class DrawPieces {
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 8; j++) {
-                    Image image = pieceImages[i][j].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    pieceLabels[i][j] = new JLabel(new ImageIcon(image));
-                    if (i < 2) {
-                        pieceLabels[i][j].setBounds(j * 100, i * 100, 100, 100);
-                        pieceInfos[i][j] = new PieceInfo()
-                                .setColor('B')
-                                .addLabel(pieceLabels[i][j])
-                                .setPiecePosition(j ,i);
+                    if (playerColor == 'W'){
+                        Image image = pieceImages[i][j].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                        pieceLabels[i][j] = new JLabel(new ImageIcon(image));
+                        if (i < 2) {
+                            pieceLabels[i][j].setBounds(j * 100, i * 100, 100, 100);
+                            pieceInfos[i][j] = new PieceInfo()
+                                    .setColor('B')
+                                    .addLabel(pieceLabels[i][j])
+                                    .setPiecePosition(j ,i);
+                        }
+                        else{
+                            pieceLabels[i][j].setBounds(j * 100, (9 - i) * 100, 100, 100);
+                            pieceInfos[i][j] = new PieceInfo()
+                                    .setColor('W')
+                                    .addLabel(pieceLabels[i][j])
+                                    .setPiecePosition(j, 9-i);
+                        }
+
+                        boardLabel.add(pieceLabels[i][j]);
+                    }else if (playerColor == 'B'){
+                        Image image = pieceImages[i][7-j].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                        pieceLabels[i][7-j] = new JLabel(new ImageIcon(image));
+                        if (i < 2) {
+                            pieceLabels[i][7-j].setBounds(j * 100, (7-i) * 100, 100, 100);
+                            pieceInfos[i][7-j] = new PieceInfo()
+                                    .setColor('B')
+                                    .addLabel(pieceLabels[i][7-j])
+                                    .setPiecePosition(j ,7-i);
+                        }
+                        else {
+                            pieceLabels[i][7-j].setBounds(j * 100, (i-2) * 100, 100, 100);
+                            pieceInfos[i][7-j] = new PieceInfo()
+                                    .setColor('W')
+                                    .addLabel(pieceLabels[i][7-j])
+                                    .setPiecePosition(j, i-2);
+                        }
+
+                        boardLabel.add(pieceLabels[i][7-j]);
                     }
-                    else {
-                        pieceLabels[i][j].setBounds(j * 100, (9 - i) * 100, 100, 100);
-                        pieceInfos[i][j] = new PieceInfo()
-                                .setColor('W')
-                                .addLabel(pieceLabels[i][j])
-                                .setPiecePosition(j, 9-i);
-                    }
-                    boardLabel.add(pieceLabels[i][j]);
+
                  }
             }
             nameThePieces();

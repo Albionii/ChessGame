@@ -11,10 +11,10 @@ public class DrawBoard {
     private JLabel boardLabel;
 
 
-    public DrawBoard(JFrame frame) {
+    public DrawBoard(JFrame frame, char playerColor) {
         this.frame = frame;
         drawBoard();
-        new DrawPieces(boardLabel);
+        new DrawPieces(boardLabel, playerColor);
     }
 
     public void drawBoard() {

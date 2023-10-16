@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 public class PieceInteraction implements Serializable{
     public PieceInfo[][] pieceInfos;
-    public static char whiteOrBlackTurn = 'W';
+    public static char whiteOrBlackTurn;
     public JLabel[][] pieceLabels;
     public boolean kingGotChecked;
 

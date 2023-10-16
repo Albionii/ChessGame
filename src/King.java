@@ -141,7 +141,7 @@ public class King extends Piece {
         for (int j = -1; j <= 1; j++) {
             for (int i = -1; i <= 1; i++){
                 if ((saveXPos+i) >= 0 && (saveXPos+i) <= 7 && (saveYPos+j) >= 0 && (saveYPos+j) <= 7) {
-                    pieceInteraction.whiteOrBlackTurn = pieceInteraction.whiteOrBlackTurn == 'W' ? 'B' : 'W';
+                    PieceInteraction.whiteOrBlackTurn = PieceInteraction.whiteOrBlackTurn == 'W' ? 'B' : 'W';
                     xPos = saveXPos+i;
                     yPos = saveYPos+j;
                     if (isLegalMove()) {
@@ -160,7 +160,7 @@ public class King extends Piece {
                 }
             }
         }
-        pieceInteraction.whiteOrBlackTurn = pieceInteraction.whiteOrBlackTurn == 'W' ? 'B' : 'W';
+        PieceInteraction.whiteOrBlackTurn = PieceInteraction.whiteOrBlackTurn == 'W' ? 'B' : 'W';
         xPos = tempX;
         yPos = tempY;
         return false;
