@@ -29,6 +29,7 @@ public class ChessClient {
             playerColor = (char)inputStream.readObject();
             PieceInteraction.whiteOrBlackTurn = playerColor;
             alternatingBoolean = playerColor != 'W';
+            Piece.didPieceMove = alternatingBoolean;
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,7 +44,7 @@ public class ChessClient {
                     int yPos = chessInfo.y;
                     int u = chessInfo.u;
                     int v = chessInfo.v;
-
+                    
                     PieceInteraction.pieces[u][v].moveForOpponent(7-xPos, 7-yPos);
                     Piece.didPieceMove = false;
                     alternatingBoolean = false;
@@ -56,7 +57,7 @@ public class ChessClient {
                     chessInfo.v = PieceInteraction.lastV;
                     chessInfo.x = PieceInteraction.pieces[chessInfo.u][chessInfo.v].xPos;
                     chessInfo.y = PieceInteraction.pieces[chessInfo.u][chessInfo.v].yPos;
-                    chessInfo.setPiece(PieceInteraction.lastPieceMoved);
+
                     outputStream.writeObject(chessInfo);
                     PieceInteraction.lastPieceMoved = null;
                 }

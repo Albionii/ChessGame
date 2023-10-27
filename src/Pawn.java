@@ -9,10 +9,9 @@ public class Pawn extends Piece{
             if (pieceInfo.getColor() == PieceInteraction.whiteOrBlackTurn && pieceInfo.getLastY() - yPos == 1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
                 pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
             }
-//            else if (pieceInfo.getColor() == 'B' && pieceInfo.getLastY() - yPos == -1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
-//                pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
-//            }
-
+            else if (pieceInfo.getColor() != PieceInteraction.whiteOrBlackTurn && pieceInfo.getLastY() - yPos == -1 && Math.abs(pieceInfo.getLastX()-xPos) == 1){
+                pieceKilled(pieceInteraction.findPieceInThatPosition(xPos, yPos));
+            }
         }
     }
 

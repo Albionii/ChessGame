@@ -47,30 +47,33 @@ public class MovePieces implements MouseListener, MouseMotionListener, KeyListen
 
     @Override
     public void mousePressed(MouseEvent e) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (e.getSource() == pieceInfos[i][j].getPieceLabel()){
-                    u = i;
-                    v = j;
+        if (!Piece.didPieceMove) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (e.getSource() == pieceInfos[i][j].getPieceLabel()) {
+                        u = i;
+                        v = j;
+                    }
                 }
             }
+
+            if (e.getSource() == boardLabel) {
+                System.out.println("Nuk perka asnje figure");
+            }
+
         }
-
-        if (e.getSource() == boardLabel) {
-            System.out.println("Nuk perka asnje figure");
-        }
-
-
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (e.getSource() == pieceInfos[u][v].getPieceLabel()){
-            mouse = boardLabel.getMousePosition();
-            if (mouse != null) {
-                pieceInfos[u][v].getPieceLabel().setLocation(mouse.x - 50, mouse.y - 50);
-                xPosition = (int)Math.round((mouse.x-50)/100.0);
-                yPosition = (int)Math.round((mouse.y-50)/100.0);
+        if (!Piece.didPieceMove) {
+            if (e.getSource() == pieceInfos[u][v].getPieceLabel()) {
+                mouse = boardLabel.getMousePosition();
+                if (mouse != null) {
+                    pieceInfos[u][v].getPieceLabel().setLocation(mouse.x - 50, mouse.y - 50);
+                    xPosition = (int) Math.round((mouse.x - 50) / 100.0);
+                    yPosition = (int) Math.round((mouse.y - 50) / 100.0);
+                }
             }
         }
     }
@@ -88,17 +91,17 @@ public class MovePieces implements MouseListener, MouseMotionListener, KeyListen
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getSource() == pieceInfos[u][v].getPieceLabel()){
+        if (e.getSource() == pieceInfos[u][v].getPieceLabel()) {
             previousXPosition = pieceInfos[u][v].getLastX();
             previousYPosition = pieceInfos[u][v].getLastY();
-            pieces[u][v].move(xPosition, yPosition);
-            if (Piece.didPieceMove){
-                returnMoves.saveMove(pieceInfos[u][v] , previousXPosition, previousYPosition, xPosition, yPosition);
-                PieceInteraction.lastPieceMoved = pieces[u][v];
+            PieceInteraction.pieces[u][v].move(xPosition, yPosition);
+            if (Piece.didPieceMove) {
                 PieceInteraction.lastU = u;
                 PieceInteraction.lastV = v;
+                PieceInteraction.lastPieceMoved = pieces[u][v];
+                returnMoves.saveMove(pieceInfos[u][v], previousXPosition, previousYPosition, xPosition, yPosition);
 
-                if(pieceInfos[u][v].didThisMovePieceTake){
+                if (pieceInfos[u][v].didThisMovePieceTake) {
                     returnMoves.saveMove(pieceInfos[u][v].lastPieceKilled, xPosition, yPosition, 9, 1);
                 }
             }

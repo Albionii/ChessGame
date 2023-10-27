@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.io.Serializable;
-import java.sql.SQLOutput;
 
 public abstract class Piece implements Serializable {
     public PieceInfo pieceInfo;
@@ -9,6 +8,7 @@ public abstract class Piece implements Serializable {
     CheckMateDetector checkMateDetector;
 
     public static boolean didPieceMove;
+    public boolean didPiecePromote;
 
     public Piece(PieceInfo pieceInfo) {
         this.pieceInfo = pieceInfo;
@@ -36,6 +36,7 @@ public abstract class Piece implements Serializable {
      */
     public void pieceKilled(PieceInfo p) {
         System.out.println("piece killed name : " + p.getName());
+        System.out.println("Piece color : " + p.getColor());
         int tempX = pieceInfo.getLastX();
         int tempY = pieceInfo.getLastY();
         int x = p.getLastX();
@@ -70,7 +71,6 @@ public abstract class Piece implements Serializable {
     public void move(int xPosition, int yPosition) {
         xPos = xPosition;
         yPos = yPosition;
-        System.out.println("isLegalMove() : " + isLegalMove());
         if (isLegalMove()){
             if (pieceInteraction.isThereAPiece(xPos, yPos)){
                 if (pieceInteraction.findPieceInThatPosition(xPos, yPos).getColor() != pieceInfo.getColor()){
@@ -91,7 +91,8 @@ public abstract class Piece implements Serializable {
         yPos = yPosition;
 
         if (pieceInteraction.isThereAPiece(xPos, yPos)){
-                pieceTakes();
+            pieceTakes();
+            System.out.println("Brenda if ne isThereAPiece");
         }
         updatePosition();
     }
@@ -137,7 +138,7 @@ public abstract class Piece implements Serializable {
 
     public void promoteThyPawn(){
         if (pieceInfo.getName().equals("P")){
-            if ((pieceInfo.getLastY() == 0 && pieceInfo.getColor() == 'W') || (pieceInfo.getLastY() == 7 && pieceInfo.getColor() == 'B')){
+            if (pieceInfo.getLastY() == 0 && pieceInfo.getColor() == PieceInteraction.whiteOrBlackTurn){
                 new Promote(pieceInfo, pieceInteraction).runBaby();
             }
         }
@@ -153,10 +154,6 @@ public abstract class Piece implements Serializable {
             isItYourTurn() &&
             !isAnyPieceOnTheWay(xPos, yPos) &&
             isMoveInPieceScope();
-    }
-
-    public boolean isLegalMoveForOpponent() {
-        return isMoveInPieceScope();
     }
 
     /**

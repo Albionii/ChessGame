@@ -3,20 +3,19 @@ import java.io.Serializable;
 
 public class PieceInteraction implements Serializable{
     public PieceInfo[][] pieceInfos;
+    public PieceInfo pieceThatMoved2Times;
     public static char whiteOrBlackTurn;
     public JLabel[][] pieceLabels;
-    public boolean kingGotChecked;
 
     public Piece pieceThatAttacked;
-    public boolean pieceMoved2Times;
-    public PieceInfo pieceThatMoved2Times;
+    public static Piece lastPieceMoved;
     public static Piece [][] pieces;
 
-    public static Piece lastPieceMoved;
 
     public static int lastU, lastV;
 
-
+    public boolean pieceMoved2Times;
+    public boolean kingGotChecked;
 
 
     public PieceInteraction(PieceInfo[][] pieceInfos, JLabel[][] pieceLabels) {

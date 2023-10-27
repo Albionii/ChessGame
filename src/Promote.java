@@ -18,10 +18,7 @@ public class Promote implements ActionListener {
     JButton button3 = new JButton();
     JButton button4 = new JButton();
 
-    Image image1;
-    Image image2;
-    Image image3;
-    Image image4;
+    Image image1,image2,image3,image4;
 
 
     public Promote(PieceInfo pawn, PieceInteraction pieceInteraction){
@@ -30,7 +27,7 @@ public class Promote implements ActionListener {
     }
 
     public void runBaby(){
-        if (pieceInteraction.whiteOrBlackTurn == 'W'){
+        if (PieceInteraction.whiteOrBlackTurn == 'W'){
             image1 = pieceImages[0][0].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             image2 = pieceImages[1][0].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             image3 = pieceImages[2][0].getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -72,8 +69,10 @@ public class Promote implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button1){
             PieceInteraction.pieces[pawn.i][pawn.j] = new Queen(pawn);
+            PieceInteraction.pieces[pawn.i][pawn.j].didPiecePromote = true;
             pawn.addPieceInicial("Q");
             pawn.getPieceLabel().setIcon(new ImageIcon(image1));
+
             frame.dispose();
         }
         if (e.getSource() == button2){
@@ -94,7 +93,5 @@ public class Promote implements ActionListener {
             pawn.getPieceLabel().setIcon(new ImageIcon(image4));
             frame.dispose();
         }
-
-
     }
 }
