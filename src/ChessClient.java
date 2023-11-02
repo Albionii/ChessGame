@@ -37,14 +37,16 @@ public class ChessClient {
         while (socket.isConnected()){
             try {
                 if (alternatingBoolean){
-                    System.out.println("waiting... c1");
+                    System.out.println("waiting...");
                     chessInfo = (ChessInfo) inputStream.readObject();
                     System.out.println("My turn now!");
                     int xPos = chessInfo.x;
                     int yPos = chessInfo.y;
                     int u = chessInfo.u;
                     int v = chessInfo.v;
-                    
+                    if (ChessInfo.didPiecePromote){
+                        chessInfo.updateOpponentPieceToPromotion(PieceInteraction.pieces[u][v]);
+                    }
                     PieceInteraction.pieces[u][v].moveForOpponent(7-xPos, 7-yPos);
                     Piece.didPieceMove = false;
                     alternatingBoolean = false;
@@ -57,7 +59,6 @@ public class ChessClient {
                     chessInfo.v = PieceInteraction.lastV;
                     chessInfo.x = PieceInteraction.pieces[chessInfo.u][chessInfo.v].xPos;
                     chessInfo.y = PieceInteraction.pieces[chessInfo.u][chessInfo.v].yPos;
-
                     outputStream.writeObject(chessInfo);
                     PieceInteraction.lastPieceMoved = null;
                 }

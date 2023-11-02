@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
 
 public class ChessInfo implements Serializable {
@@ -6,7 +7,10 @@ public class ChessInfo implements Serializable {
     public int u, v;
     public int x, y;
 
-    public boolean didPiecePromote;
+    public static boolean didPiecePromote;
+    public static Image imageToPromote;
+    public static char nameOfPromotion;
+    public static PieceInfo pieceInfoPromoted;
 
 
     public Piece getPiece() {
@@ -17,9 +21,39 @@ public class ChessInfo implements Serializable {
         this.piece = piece;
     }
 
-    public void changePieceImage(PieceInfo pawn){
-        PieceInteraction.pieces[pawn.i][pawn.j] = new Queen(pawn);
-        pawn.addPieceInicial("Q");
-        pawn.getPieceLabel().setIcon(new ImageIcon(image1));
+    public static void setPromoteInfo(boolean b, Image i, char c, PieceInfo p){
+        didPiecePromote = b;
+        imageToPromote = i;
+        nameOfPromotion = c;
+        pieceInfoPromoted = p;
     }
+
+    public void updateOpponentPieceToPromotion(Piece p){
+        didPiecePromote = false;
+        switch (nameOfPromotion){
+            case 'Q' :
+                p = new Queen(pieceInfoPromoted);
+                p.pieceInfo.addPieceInicial("" + nameOfPromotion);
+                p.pieceInfo.getPieceLabel().setIcon(new ImageIcon(imageToPromote));
+                break;
+            case 'B' :
+                p = new Bishop(p.pieceInfo);
+                p.pieceInfo.addPieceInicial("" + nameOfPromotion);
+                p.pieceInfo.getPieceLabel().setIcon(new ImageIcon(imageToPromote));
+                break;
+            case 'N' :
+                p = new Knight(p.pieceInfo);
+                p.pieceInfo.addPieceInicial("" + nameOfPromotion);
+                p.pieceInfo.getPieceLabel().setIcon(new ImageIcon(imageToPromote));
+                break;
+            case 'R' :
+                p = new Rook(p.pieceInfo);
+                p.pieceInfo.addPieceInicial("" + nameOfPromotion);
+                p.pieceInfo.getPieceLabel().setIcon(new ImageIcon(imageToPromote));
+                break;
+        }
+
+
+    }
+
 }

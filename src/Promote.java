@@ -69,28 +69,30 @@ public class Promote implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button1){
             PieceInteraction.pieces[pawn.i][pawn.j] = new Queen(pawn);
-            PieceInteraction.pieces[pawn.i][pawn.j].didPiecePromote = true;
             pawn.addPieceInicial("Q");
             pawn.getPieceLabel().setIcon(new ImageIcon(image1));
-
+            ChessInfo.setPromoteInfo(true, image1, 'Q', pawn);
             frame.dispose();
         }
         if (e.getSource() == button2){
             PieceInteraction.pieces[pawn.i][pawn.j] = new Rook(pawn);
             pawn.addPieceInicial("R");
             pawn.getPieceLabel().setIcon(new ImageIcon(image2));
+            ChessInfo.setPromoteInfo(true, image2, 'R', pawn);
             frame.dispose();
         }
         if (e.getSource() == button3){
             PieceInteraction.pieces[pawn.i][pawn.j] = new Knight(pawn);
             pawn.addPieceInicial("N");
             pawn.getPieceLabel().setIcon(new ImageIcon(image3));
+            ChessInfo.setPromoteInfo(true, image3, 'N', pawn);
             frame.dispose();
         }
         if (e.getSource() == button4){
             PieceInteraction.pieces[pawn.i][pawn.j] = new Bishop(pawn);
             pawn.addPieceInicial("B");
             pawn.getPieceLabel().setIcon(new ImageIcon(image4));
+            ChessInfo.setPromoteInfo(true, image4, 'B', pawn);
             frame.dispose();
         }
     }

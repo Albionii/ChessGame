@@ -39,13 +39,16 @@ public class ChessClient2 {
         while (socket.isConnected()){
             try {
                 if (alternatingBoolean){
-                    System.out.println("waiting ... c2");
+                    System.out.println("waiting ...");
                     chessInfo = (ChessInfo) inputStream.readObject();
                     System.out.println("My turn now!");
                     int xPos = chessInfo.x;
                     int yPos = chessInfo.y;
                     int u = chessInfo.u;
                     int v = chessInfo.v;
+                    if (ChessInfo.didPiecePromote){
+                        chessInfo.updateOpponentPieceToPromotion(PieceInteraction.pieces[u][v]);
+                    }
                     PieceInteraction.pieces[u][v].moveForOpponent(7-xPos, 7-yPos);
                     Piece.didPieceMove = false;
                     alternatingBoolean = false;
@@ -71,7 +74,7 @@ public class ChessClient2 {
 
     public static void main(String[] args) {
         int port = 1234;
-        String host = "localhost";
+        String host = "";
         new ChessClient2(host, port);
     }
 }
